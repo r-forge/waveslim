@@ -62,7 +62,7 @@ long-memory processes.
 <li>The dual-tree complex wavelet transform (CWT).
 <li>Time-varying spectral analysis using Hilbert wavelet pairs.
 </ul>
-<p>The <strong>project summary page</strong> you can find 
+<p>The <strong>project summary page</strong> may be found  
 <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
 </body>
