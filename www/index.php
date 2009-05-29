@@ -43,9 +43,27 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<p> No content added. </p>
-
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<p>Welcome to the <strong>waveslim</strong> package.  Originally written in S-plus in 1994
+and ported to R in 2001, I have taken all the wavelet code I have accumulated over the 
+years and created the <strong>waveslim</strong> R package.  Subroutines to perform wavelet 
+analysis using Hilbert wavelet pairs have also been included by porting Selesnick's Matlab 
+implementation of the dual-tree complex wavelet transform (CWT).  Major features include:</p>
+<ul>
+<li>Analysis of time series using the DWT, MODWT, DWPT and MODWPT.
+<li>Analysis of images using the DWT, MODWT, DWPT and MODWPT.
+<li>Analysis of three-dimensional arrays using the DWT and MODWT.
+<li>Standard wavelet thresholding techniques.
+<li>Wavelet analysis of covariance/correlation for bivariate time
+series.
+<li>Testing for homogeneity of variance in long-memory processes.
+<li>Wavelet-based ML estimation for long-memory and seasonal
+long-memory processes.
+<li>Both standard (Donoho and Johnstone) and real data sets.
+<li>The dual-tree complex wavelet transform (CWT).
+<li>Time-varying spectral analysis using Hilbert wavelet pairs.
+</ul>
+<p>The <strong>project summary page</strong> you can find 
+<a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
 </body>
 </html>
