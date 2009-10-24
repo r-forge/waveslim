@@ -17,9 +17,11 @@ data(acvs.andel11)
 }
 \format{
   A data frame with 4096 rows and three columns:
-  \item{lag}{Lag}
-  \item{acvs}{Autocovariance sequence}
-  \item{acf}{Autocorrelation sequence}
+  \describe{
+    \item{lag}{Lag}
+    \item{acvs}{Autocovariance sequence}
+    \item{acf}{Autocorrelation sequence}
+  }
 }
 \references{
   Andel, J. (1986)
