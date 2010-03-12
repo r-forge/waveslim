@@ -54,7 +54,7 @@
 \begin{document}
 
 \begin{frontmatter}
-\title{HARDI Geometry and Statistics}
+\title{A Statistical Framework for High Angular Resolution Diffusion Imaging in {\em q}-Space}
 \runtitle{HARDI Geometry and Statistics}
 
 \begin{aug}
@@ -85,8 +85,8 @@ United Kingdom\\
 \end{aug}
 
 \begin{abstract}
-This paper proposes non-parametric scalar measures for high angular
-resolution diffusion imaging data that can be used to characterize
+Non-parametric scalar measures are proposed for high angular
+resolution diffusion imaging data that are used to characterize
 spatial features of the diffusion probability density function (PDF),
 relying on the geometry of its Fourier Transform.  Summary statistics
 are defined so that their distributions are, to first order, both
@@ -94,17 +94,17 @@ independent of nuisance parameters and analytically tractable.  The
 dominant direction of the diffusion in a voxel is determined, and a
 new set of axes are introduced in $q$-space.  Variation quantified in
 these axes determines the spatial properties of the diffusion.
-Non-parametric tests for determining whether the diffusion is
-unimodal, isotropic or multi-modal are proposed.  More subtle
+Non-parametric hypothesis tests for determining whether the diffusion
+is unimodal, isotropic or multi-modal are proposed.  More subtle
 characteristics of white-matter microstructure, such as the degree of
 anisotropy of the PDF and symmetry compared with a variety of
 asymmetric PDF alternatives, may be ascertained directly in $q$-space
 without parametric assumptions on the form of the diffusion~PDF.  We
 simulate a set of diffusion processes and characterize their local
 properties using the newly introduced $q$-space summaries.  We show
-how forking voxels may exhibit clear ellipsoidal and asymmetric
-structure in simulation, and show the performance of the statistics in
-clinically-acquired MRI data.
+how complex white-matter structures across multiple voxels exhibit
+clear ellipsoidal and asymmetric structure in simulation, and assess
+the performance of the statistics in clinically-acquired MRI data.
 \end{abstract}
 
 %\begin{IEEEkeywords}
@@ -126,8 +126,8 @@ clinically-acquired MRI data.
 \section{Introduction}
 \label{intro}
 
-This paper proposes novel methods for characterising high angular
-resolution diffusion imaging (HARDI) data in $q$-space
+This paper develops a statistical framework for characterising high
+angular resolution diffusion imaging (HARDI) data in $q$-space
 \citep{tuc-etal:high}.  We focus on describing spatial characteristics
 of the diffusion probability density function (PDF) directly in
 $q$-space {\em without} inverting the density and define estimators of
