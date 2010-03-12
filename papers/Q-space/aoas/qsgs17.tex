@@ -1,0 +1,2152 @@
+\documentclass[dvips,aoas,preprint]{imsart}
+
+\RequirePackage[OT1]{fontenc}
+\RequirePackage{amsthm,amsmath,natbib}
+\RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
+%\RequirePackage{hypernat}
+\usepackage{amssymb,bm,graphicx}
+
+% settings
+%\pubyear{2005}
+%\volume{0}
+%\issue{0}
+%\firstpage{1}
+%\lastpage{8}
+\arxiv{math.PR/0000000}
+
+\startlocaldefs
+\numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\endlocaldefs
+
+\newcommand{\var}{\ensuremath{\text{var}}}
+\newcommand{\E}{\ensuremath{\text{E}}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\q}{\mathbf{q}}
+\newcommand{\tbq}{\tilde{\bq}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bu}{\bs{\upsilon}}
+\newcommand{\uu}{\mathbf{u}}
+\newcommand{\x}{\mathbf{x}}
+\newcommand{\X}{\mathbf{X}}
+\newcommand{\y}{\mathbf{y}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cK}{\mathcal{K}}
+\newcommand{\cQ}{\mathcal{Q}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\vare}{\varepsilon}
+\newcommand{\bld}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+
+\begin{document}
+
+\begin{frontmatter}
+\title{HARDI Geometry and Statistics}
+\runtitle{HARDI Geometry and Statistics}
+
+\begin{aug}
+\author{\fnms{Sofia C.}\snm{Olhede}\thanksref{t1,m1}\ead[label=e1]{s.olhede@ucl.ac.uk}}
+\and
+\author{\fnms{Brandon}\snm{Whitcher}\thanksref{m2}\ead[label=e2]{brandon.j.whitcher@gsk.com}}
+
+\thankstext{t1}{Some comment}
+\runauthor{S. C. Olhede and B. Whitcher}
+
+\affiliation{Univesity College London\thanksmark{m1} and GlaxoSmithKline\thanksmark{m2}}
+
+\address{Department of Statistical Science\\
+University College London\\
+Gower Street\\
+London WC1 E6BT\\
+United Kingdom\\
+\printead{e1}}
+
+\address{Clinical Imaging Centre\\
+GlaxoSmithKline\\
+Hammersmith Hospital\\
+Imperial College London\\
+Du Cane Road\\
+London W12 0HS\\
+United Kingdom\\
+\printead{e2}}
+\end{aug}
+
+\begin{abstract}
+This paper proposes non-parametric scalar measures for high angular
+resolution diffusion imaging data that can be used to characterize
+spatial features of the diffusion probability density function (PDF),
+relying on the geometry of its Fourier Transform.  Summary statistics
+are defined so that their distributions are, to first order, both
+independent of nuisance parameters and analytically tractable.  The
+dominant direction of the diffusion in a voxel is determined, and a
+new set of axes are introduced in $q$-space.  Variation quantified in
+these axes determines the spatial properties of the diffusion.
+Non-parametric tests for determining whether the diffusion is
+unimodal, isotropic or multi-modal are proposed.  More subtle
+characteristics of white-matter microstructure, such as the degree of
+anisotropy of the PDF and symmetry compared with a variety of
+asymmetric PDF alternatives, may be ascertained directly in $q$-space
+without parametric assumptions on the form of the diffusion~PDF.  We
+simulate a set of diffusion processes and characterize their local
+properties using the newly introduced $q$-space summaries.  We show
+how forking voxels may exhibit clear ellipsoidal and asymmetric
+structure in simulation, and show the performance of the statistics in
+clinically-acquired MRI data.
+\end{abstract}
+
+%\begin{IEEEkeywords}
+%Anisotropy, asymmetry, diffusion-weighted magnetic resonance imaging
+%(DW-MRI), high angular resolution diffusion imaging (HARDI),
+%non-parametric statistics.
+%\end{IEEEkeywords}
+
+\begin{keyword}
+\kwd{anisotropy}
+\kwd{asymmetry}
+\kwd{magnetic resonance imaging}
+\kwd{diffusion weighted imaging}
+\kwd{non-parametric}
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+\label{intro}
+
+This paper proposes novel methods for characterising high angular
+resolution diffusion imaging (HARDI) data in $q$-space
+\citep{tuc-etal:high}.  We focus on describing spatial characteristics
+of the diffusion probability density function (PDF) directly in
+$q$-space {\em without} inverting the density and define estimators of
+summaries of spatial structure.  The approximate distributions of the
+estimators are derived and these are to first order free of any
+nuisance parameters.  These statistics are a first step towards
+automated detection of subtle characteristics of white-matter
+microstructure that go beyond the typical measurements; i.e., scalene
+diffusions or asymmetry in decay in a fixed axes.  Both properties,
+scalene diffusion and asymmetry, have been found in a forking fiber
+structure, and may be important summaries to feed into fiber-tracking
+algorithms \citep{mor-zij:fiber-tracking}.  The derived methods also
+serve as a warning when interpreting multi-tensor models in
+clinically-feasible acquisition schemes.
+
+% The revival of connectional anatomy, through the application of in
+% vivo assessment of white-matter structure using Diffusion Tensor
+% Imaging (DTI), quickly highlighted the limitations of the diffusion
+% tensor as a model \citep{MarcoCatani02242007}.  When applying MRI as
+% a biomarker to characterize a pathological process one must worry
+% about various concepts like accuracy, precision and reproducibility.
+% DTI has already been applied to a wide variety of neurological
+% disorders; for example, multiple sclerosis, ischemic leukoaraiosis,
+% CADASIL and Alzheimer's disease \citep{Horsfield2002}.  Psychiatric
+% applications of DTI are also well documented \citep{Lim2002}.
+% Taking the notion of an imaging biomarker further leads one to
+% consider performing a clinical trial that introduces a
+% disease-modifying treatment to subjects.  In this situation it is
+% crucial to have a biologically-relevant biomarker that is extremely
+% sensitive to changes due to the disease process or treatment
+% \citep{whi-mat:pitfalls}. Better sensitivity translates directly
+% into an increase in power to detect changes between groups of
+% subjects in a clinical trial setting. Direct consequences of this
+% are lower numbers of subjects that must be recruited or a reduction
+% in the length of the trial -- either of these have the potential to
+% speed up the drug development process.  The methodology presented
+% here will provide researchers with the ability to quantify features
+% from HARDI data that are currently unavailable from current
+% techniques.  Specific links between white-matter features (such as
+% crossing and bending fibers) and $q$-space characteristics will be
+% provided.
+
+A HARDI acquisition scheme permits one to characterize directional
+properties of the diffusion PDF by measuring the intensity of
+$q$-space measurements over a spherical shell of fixed radius.  The
+measured signal and the object of interest (the diffusion PDF) are
+linked via an inverse Fourier Transform (FT)
+%\citep{basser1994,bas:relationships,Callaghan}.
+\citep{Callaghan}.  Traditional analysis of such measurements is based
+on modelling the PDF parametrically as Gaussian, and estimating a
+diffusion tensor.  While the diffusion tensor model has both
+theoretical justification and has been extremely popular, it prohibits
+one from describing more complicated white-matter voxel structure,
+such as crossing, kissing and forking fibers
+\citep{mor-zij:fiber-tracking}.  It is believed that intravoxel
+orientational heterogeneity affects as many as one third of all imaged
+white-matter voxels \citep{Behrens2007}.  For this reason
+methods such as multi-tensor modelling \citep{Alexander2005},
+persistent angular structure MRI \citep{Jansons}, Q-ball imaging
+\citep{Tuch}, the diffusion orientation transform
+\citep{Ozarslan2006}, spherical deconvolution \citep{Tournier}
+% with various proposed improvements \citep{Hess,Descoteaux,Kaden2007,Jian2007} 
+have been introduced to allow for the determination of heterogeneous
+orientational structure.
+
+%Multi-tensor
+%modelling either requires the number of tensors to be known
+%\citep{Seunarine}, or additional constraints are required for
+%consistent estimation of the diffusion PDF to ensure identifiability.
+%In order for such methods to work well the Gaussian mixture model must
+%adequately represent the observed structure of the data.
+%
+%PAS-MRI and Q-ball, competitive non-parametric methods, are fitted and
+%smoothed using an implicit smoothness parameter.  Q-ball methods
+%usually assume a greater number of observations than are normally
+%collected in a clinical acquisition protocol, whilst PAS-MRI seeks to
+%determine the orientation associated with a fixed spatial scale.
+%Furthermore, usually isotropic smoothing is used when implementing both %these
+%methods which may eliminate interesting and important high-frequency
+%structure present in the underlying diffusion PDF; i.e., microscale
+%features.  Finally, the DOT is calculated under the assumption of
+%monoexponential decay, and the radial dependence is integrated out
+%analytically, using the Stejskal-Tanner relationship.  This makes the
+%spatial interpretation highly model dependent and therefore
+%susceptible to model specification error.  The integral is
+%subsequently expanded into a Laplace series from which the average
+%displacement probability can be deduced.  Expansions of this sort are
+%necessarily truncated for implementation which corresponds to
+%smoothing with an implicit bandwidth. 
+
+%Identifying multimodal distributions of diffusion can, to a great
+%extent, be addressed by a variety of methods
+%\citep{Jansons,Tuch,par-ale:pico,hos-wil-ans:inference,beh-etal:multiple}.
+
+Global features like bi- or multi-modality of the diffusion~PDF are
+described reasonably well by any of the enumerated methods over a
+range of signal to noise values, with the small caveat that the
+various implicit assumptions inherent to any of the given methods must
+be satisfied.  Parametric models introduce bias when they are not
+appropriate, whereas using a nonparametric method increases the
+variance in the estimation.  Using a moderate number of directions in
+the HARDI acquisition restricts the possibility of determining smaller
+scale features of the PDF.  Strong parametric assumptions increase the
+power of any proposed statistic to detect multiple diffusion
+directions, with the consequence that any deviation from the
+prescribed structure in the parametric model may be used to reject
+null hypotheses such as unimodality.  
+% This implies that incorrect conclusions may be reached when
+% interpreting the properties of the PDF from such parametric models.
+
+%The first task at a given voxel is to determine if the diffusion can
+%be described as strongly directional versus isotropic or multimodal
+%and we develop appropriate non-parametric procedures for this task.
+%Alexander {\em et al.} \citet{ale-bar-arr:detection} developing related
+%methods modelled the hypothesis of isotropy versus a single peak in
+%terms of spherical harmonics, where the hypotheses were defined by the
+%order of the decomposition.  With a fixed sampling scheme, the ability
+%to detect a peak depends on the directional alignment of the great
+%circle in $q$-space that is associated with the peak and the sampling
+%points in $q$-space.  This fact is related to the occasional poor
+%performance of peak detection methods when the sampling grid is
+%misaligned with the true peaks, as noted by \citet{Jian2007}.
+
+In the method proposed here the unidirectional structure is separated
+from the isotropic, using a test based on a comparison of relative
+magnitudes in $q$-space, and then multimodal distributions are sifted
+from the isotropic and unidirectional.  The unidirectional diffusion
+is associated with a great circle in $q$-space \citep{Tuch}, and we
+call this the {\em dominant great circle}.  If a given voxel has been
+diagnosed as unidirectional then we seek to characterize its main
+unidirectional structure in more detail.  A scalar measure resembling
+fractional anisotropy \citep{bas:FA} is defined as the {\em anisotropy
+  statistic}, by comparing the magnitude of the $q$-space diffusion on
+this great circle with its perpendicular point(s).  This measure is
+not exactly equivalent to the classical definition of fractional
+anisotropy, but measures analogous quantities based on averaging the
+apparent diffusion coefficient (ADC) at fixed values of $b$
+\citep{fra:anisotropy}.  Its main purpose is to determine the degree
+of anisotropy of the diffusion~PDF.
+
+Further investigation of unidirectional voxels causes us to focus on
+quantifying the uniformity of decay in the minor axes of the PDF,
+where the major axis defines the dominant direction of the diffusion,
+or the perpendicular to the dominant great circle.  Ellipsoidal
+diffusions are an important class and the scalene structure of the
+diffusion~PDF is particularly important \citep{Seunarine}.  The
+aforementioned work showed that the scalene structure of the peak is
+related to the peak anisotropy in space and important for treating
+bending and fanning fibers.  \citet{Seunarine} used the peak Hessian to
+improve PICo \citep{par-ale:pico}, but such information can feed into
+any tracking algorithm of choice.  For diffusions with ellipsoidal
+decay, their minor axes are well defined by this decay structure,
+while for non-ellipsoidal diffusions the minor axes correspond to a
+set of axes in the plane of the dominant great circle, parameterising
+locations on the dominant great circle.  We examine the scalene
+structure of the PDF, which is quantified by the difference in decay
+in the two spatial minor axes, defined as such also for non-ellipsoid
+diffusions.  
+% This corresponds to examining the variability of the diffusion on
+% the great circle perpendicular to the vector associated with the
+% major direction of the diffusion.  For a Gaussian diffusion this is
+% given by the two minor eigenvalues of the eigen-decomposition of the
+% diffusion tensor.
+A statistical test for uniformity on the great circle is developed
+that can be related to the spatial decay of the diffusion PDF in the
+minor axes.  Another feature of interest is asymmetry in the decay in
+a fixed direction perpendicular to the dominant great circle.  This
+heuristic may be visualized in space as a diffusion~PDF that appears
+ellipsoidal but the peak is in one of the foci rather than the center
+of the ellipse.  We introduce a test statistic for asymmetry based on
+this understanding.
+
+% To motivate our interest in asymmetry and ellipsoidality we simulate
+% forking and crossing structures, and show how both asymmetry and
+% ellipsoidality follows as precursors to forking structure, and such
+% information could be used to improve the tracking of fibers.
+
+The methodology presented here improves understanding of the
+diffusion~PDF by not relying on parametric assumptions when analysing
+the measurements, yet still relating $q$-space structure directly to
+spatial properties.  Non-parametric statistical summaries are defined
+directly in $q$-space to increase power of the proposed hypothesis
+tests and theoretical critical values for the statistics are provided.
+Understanding the inherent limitations of HARDI measurements can be
+obtained directly from our discussion of simulated diffusions, thus
+increasing our understanding of the parametric assumptions that are
+necessary to derive more complicated structures from the
+diffusion~PDF.
+
+\section{Statistical Models for HARDI Data}
+
+\subsection{Observational Model}
+
+We denote the sampling of the observations by the set
+$\cQ_0=\left\{\tbq_i\right\}_{i=1}^n$.  At each
+$\tbq_i=(\tilde{q}_{i1},\tilde{q}_{i2},\tilde{q}_{i3})$ on the unit
+sphere
+$\|\tbq\|=(\tilde{q}_{1}^2+\tilde{q}_{2}^2+\tilde{q}_{3}^2)^{1/2}=1$
+we obtain an observed measurement $\wt{A}(\tbq_i)\ge0$, corresponding
+to the magnitude of a complex-valued observation.  Furthermore we take
+$n_0$ observations at $\q=\bld{0}$, denoted by $\wt{A}_k(\bld{0})$ for
+$k=1,\dots,n_0$.  We distinguish here between the measured apparent
+diffusion at $\tbq_i$, namely $\wt{A}(\tbq_i)$, and the theoretical
+diffusion value, $\cA(\tbq_i)$. Note that the expected value of
+$\wt{A}(\tbq_i)$ is {\em not} equivalent to $\cA(\tbq_i)$, for two
+reasons. Firstly because the observations are magnitudes the noise
+contributes in the expectation, and secondly we need to renormalize
+the observed diffusion, as noted by \citet{Alexander2005}.  As the PDF
+is a density it has to satisfy the normalization of
+\begin{equation}
+  \int \int \int a(\x) \, d^3\x = 1 ~ \Rightarrow ~ \cA(\bld{0}) = 1,
+\end{equation}
+where $a(\x)$ is the diffusion probability density function (PDF).  We
+apply a biased estimator of a simple average to estimate the inverse
+of the normalizing constant by
+$\ol{A}(\bld{0})=\sum_{k=1}^{n_0}\wt{A}_k(\bld{0})/n_0$.  We
+renormalize the observed diffusion such that
+$A(\tbq_i)=\wt{A}(\tbq_i)/\ol{A}(0)$.  $A(\tbq_i)$ has (approximately)
+a Rician distribution with parameters $\cA(\tbq_i)$ and $\sigma^2$.
+As the SNR will be large at $\q=\bld{0}$, the noise floor of the
+Rician distribution will have limited impact in the estimation of the
+normalization.
+
+The normalized diffusion measurements $\cA(\tbq_i)$ should exhibit
+Hermitian symmetry as the PDF is both real-valued and indeed positive;
+i.e., $\cA(-\tbq_i)=\cA^*(\tbq_i)$.  To fully exploit the Hermitian
+symmetry we shall reflect the observations to the augmented set
+$\cQ=\{\q:\q\in\cQ_0\}\cup\{\q:-\q\in\cQ_0\}$, and set
+$A(-\tbq_i)=A^*(\tbq_i)$ as was also done by \citet{Jansons}.  The
+complex conjugation is redundant as the FT of the diffusion is
+positive \citep{Wedeen05}, and so magnitudes are analysed.
+
+We assume that a non-parametric estimator of the diffusion in
+$q$-space is constructed. We use a variable bandwidth estimator, see
+\citet{OlhedeWhitcher,OlhedeWhitcherISBI}, but the outlined methodology
+is applicable to other linear estimators, and can be extended to for
+example radial basis functions and/or spherical harmonics, if with
+some straightforward alteration of the statistical properties of the
+estimator.
+
+\subsection{Great Circles in $q$-Space}
+
+Spatial properties of the diffusion PDF may be described directly in
+$q$-space.  The advantage of such an operation is that we avoid the
+need to invert the PDF to the spatial domain for analysis, allowing us
+to employ a broad range of modelling approaches.  The basic building
+block of our analysis is an {\em ellipsoid density}.  We refer to a
+density $a_E(\x)$ as an ellipsoid density if its FT takes the form
+\begin{equation}\label{ellipsoid}
+  \cA_E\left(\q; \bm{\Lambda},\bm{\Upsilon}\right) =
+  B\left(\sqrt{\sum_{j=1}^3\lambda_j\left|\bu_j^T\q\right|^2
+  }\right),
+\end{equation}
+where $\lambda_j\ge{0}$, $j=1,2,3$, $\{\bu_j\}$ constitutes a basis
+for ${\mathbb{R}}^3$ and $B(\cdot)$ is a monotonically decreasing
+function.  For example commonly used is the Gaussian with
+$B(q)=e^{-2(\pi q)^2}$.  We collect the eigenvalues in the matrix
+$\bs{\Lambda}={\text{diag}}\left(\lambda_1,\;\lambda_2,\;\lambda_3\right)$,
+and define
+$\bm{\Upsilon}^T=\{[\upsilon_{11}\;\upsilon_{12}\;\upsilon_{13}];
+[\upsilon_{21}\;\upsilon_{22}\;\upsilon_{23}];
+[\upsilon_{31}\;\upsilon_{32}\;\upsilon_{33}]\}$.  Ellipsoid densities
+are natural building blocks, just like the special case of the DTI
+model, and do not include multimodal densities.  If the $q$-space
+density takes this form, then the spatial PDF is given by inverting
+the FT
+\begin{equation}
+  a_E(\x;\bm{\Lambda},\bm{\Upsilon}) = \int\int\int_{\mathbb{R}^3}
+  \cA_E(\q; \bm{\Lambda},\bm{\Upsilon})e^{i2\pi \q^T\x} \, d^3 \q
+\end{equation}
+\citep{Callaghan}.  We note for $\x\in\mathbb{R}^3$, with $x=\|\x\|$
+and $q=\|\q\|$, that $a_E(\x;\bm{\Lambda},\bm{\Upsilon})$ takes the
+form
+\begin{eqnarray}\label{ellipsoid2}
+  a_E(\x;\bs{\Lambda},\bs{\Upsilon}) &=& |\bs{\Lambda}|^{1/2} \,
+  b\left(\left\|\bs{\Lambda}^{-1/2}\bs{\Upsilon}\x\right\|\right),\\
+  b(x) &=& \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+  \int_{-\infty}^{\infty} B(q) e^{i2\pi\q^T\x} \, d^3\q\\
+  &=& \frac{1}{2\pi^2 x}\int_0^{\infty}
+  B\left(\frac{q'}{2\pi}\right)\sin(xq')\,q'\,dq'\\
+  &=& \frac{2}{x}\int_0^{\infty}B(q)\sin(2\pi xq) \,q\,dq,
+  \nonumber
+\end{eqnarray}
+which follows from \citep{grad}[p.~1112].  The meaning of ``ellipsoid
+density'' becomes clear from this expression, since whenever
+$\|\bs{\Lambda}^{-1/2}\bs{\Upsilon}\x\|=R$, where $R\ge 0$ is a
+constant, the function $a_E(\x)$ takes the same value in space.  As
+long as all the eigenvalues are positive, $ a_E(\cdot)$ will therefore
+map out an ellipsoid.  The Gaussian DTI model fits into this class of
+densities with $b(x)=e^{-x^2/2}/(2\pi)^{3/2}$ as do, for example, the
+Mat\'ern family with the spatial variable exchanged with the spatial
+frequency variable \citep{Matern}.  The model proposed by
+\citet{Kaden2007} is also related to such densities, and a Taylor
+expansion of $\ln(a_E(\x))$ would yield such forms. Typical shapes are
+found in Figure~\ref{fig:inrha} where we show a prolate ellipsoid
+distribution, and its Fourier transform ((a) and (e)), a scalene
+ellipsoid PDF ((b) and (f)), a mixture of ellipsoids ((c) and (g)),
+and a non-ellipsoid ((d) and (h)). The values of $\bm{\Upsilon}$
+specify the orientation of the PDF, while $\bm{\Lambda}$ gives its
+qualitative appearance, when coupled with $B(\cdot)$. Unfortunately,
+looking directly at Figure \ref{fig:inrha} we do not get the clearest
+feeling for the local structure near the peak, and so another way of
+characterizing the PDF will be formulated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htbp]
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (a)
+    \includegraphics*[width=\textwidth]{inspace1.ps}
+  \end{minipage}
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (b)
+    \includegraphics*[width=\textwidth]{inspace2.ps}
+  \end{minipage}
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (c)
+    \includegraphics*[width=\textwidth]{inspace3.ps}
+  \end{minipage}
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (d)
+    \includegraphics*[width=\textwidth]{inspace0.ps}
+  \end{minipage}
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (e)
+    \includegraphics*[width=\textwidth]{infreq1.ps}
+  \end{minipage}
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (f)
+    \includegraphics*[width=\textwidth]{infreq2.ps}
+  \end{minipage}
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (g)
+    \includegraphics*[width=\textwidth]{infreq3.ps}
+  \end{minipage}
+  \begin{minipage}[]{0.10\textwidth}
+    \centering
+    (h)
+    \includegraphics*[width=\textwidth]{infreq0.ps}
+  \end{minipage}
+  \caption[]{Unimodal densities ((a), (b) and (d)) in space and ((e),
+    (f) and (h)) frequency, as well as a mixture of ellipsoids (c) in
+    space, and (g) in frequency.}
+  \label{fig:inrha}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The Orientation Distribution Function}
+
+An important tool in understanding HARDI data is via the Orientational
+Distribution Function (ODF).  The ODF quantifies the directional
+structure of the diffusion PDF {\em in space}.  A popular object of
+study, it corresponds to several {\em different} functions.
+\citet{Tuch} and \citet{Hess,Descoteaux} define the ODF to be
+\begin{equation}
+  \text{ODF}_T(\theta,\phi) = \frac{1}{Z} \int_0^{\infty} a(r\uu)\,dr,
+\end{equation}
+where $\x=r\uu$, $\|\uu\|=1$ and $Z$ is a normalizing constant.  A
+non-linear transformation is necessary for the ODF to have a more
+peaked and clear directional structure.  Because this is not a true
+marginalization of a PDF, and weighs very low scales heavily, the
+diffuse directional structure of the large scale structure smooths the
+marginal PDF of orientations, giving it a ``blunted'' appearance.
+\citet{Wedeen05} define the ODF as the truly marginalized PDF over all
+spatial radii
+$\text{ODF}_W(\theta,\phi)=\int_0^{\infty}r^2a(r\uu)\,dr$.  An
+alternative version may be found in \citep{Jansons}, where the
+orientational structure associated with a single radius is fitted to
+the observed data (i.e. the Persistent Angular Structure (PAS-MRI)
+algorithm).  It is useful to note that the observed data is not
+associated purely with a single radius, and for this to be a
+mathematically correct procedure the observed HARDI measurements
+should be convolved with a suitable kernel prior to estimation.
+Despite this fact PAS-MRI gives good results in practice.  All three
+of these orientational summaries are measuring different properties of
+the directional structure of the data, and only
+$\text{ODF}_W(\cdot,\cdot)$ is a true marginal PDF.
+% Only the Wedeen ODF is a true marginal PDF, and we doubt a true
+% interest in structure across all radii -- surely information below a
+% lower band is purely attributed to noise, and really high scale
+% orientational information blurs out the structure we want.  
+%The modelling simplifications of each method are a necessity because of %undersampling, and in
+%each case are appropriately chosen.
+% as we have undersampled the data and cannot with a simple set of
+% HARDI measurements perfectly calculate the ODF without simplifying
+% assumptions or regularization. 
+
+Another directional representation of diffusion data corresponds to
+the spherical convolution model \citep{Tournier}.  In this model,
+$q$-space observations are modelled as convolved fiber ODFs, and fiber
+populations are estimated using deconvolution methods. The magnitudes
+are then not comparable with previously defined estimators of ODFs.
+Extensions to these methods have been proposed: by modelling the ODF
+as a mixture of Bingham distributions \citep{Kaden2007}, and by
+regularizing the deconvolution problem by proposing the use of
+constrained optimization methods \citep{Jian2007}.  The solution in
+\citet{Kaden2007} is parametric and the theoretical assumptions
+necessary to apply the regularized methods are (in general) violated
+\citep{Jian2007}.
+
+The ellipsoid PDF model in \eqref{ellipsoid2} can be extended into a
+larger class of arbitrarily peaked deformed PDFs by taking
+$\bm{\Lambda}(\x)={\text{diag}}(\lambda_{11}(\x),\lambda_{22}(\x),\lambda_{33}(\x))$,
+$\lambda_{jj}(\x)\ge0$, with $C$ a normalizing constant,
+\begin{eqnarray}%\label{deformedellipse}
+  a_{DE}(\x) &=& C \sqrt{|\bs{\Lambda}(\bs{\Upsilon}\x)|} \,
+  b\left(\left\|\bs{\Lambda}(\bs{\Upsilon}\x)^{-1/2}
+  \bs{\Upsilon}\x\right\|\right),\\ 
+  a_{DE}(\bs{\Upsilon}^T\x) &=& C \sqrt{|\bs{\Lambda}(\x)|}
+  b\left(\left\|\bs{\Lambda}(\x)^{-1/2}\x\right\|\right).
+\end{eqnarray}
+Because $\bs{\Lambda}(\x)$ is a diagonal matrix
+$a_{DE}(\bs{\Upsilon}^T\x)$ exhibits the axes $(1,\;0,\;0)$,
+$(0,\;1,\;0)$ and $(0,\;0,\;1)$.  Implementing a Fourier transform
+directly with the change of variables, the Fourier transform is mixed
+over the strengths in $\bs{\Lambda}(\x)$, but exhibits the same
+orientational axes.  We have the model of
+\begin{equation}\label{deformedell}
+  {\cA}_{DE}(\q) = C \int\int\int_{\mathbb{R}^3}
+  |\bs{\Lambda}(\x)|^{1/2} \,
+  b\left(\|\bs{\Lambda}(\x)^{-1/2}\x\|\right)
+  e^{-i2\pi(\bs{\Upsilon}\q)^T\x} \, d^3\x.
+\end{equation}
+This function can take the appearance of a deformed ellipsoid in
+space, and may then exhibit a different pattern of decay to the left
+and right of the dominant great circle in $q$-space.  For the regular
+ellipsoid distribution $a_E(\x)$ if one eigenvalue is larger than the
+two others (say $\lambda_1>\lambda_2\ge\lambda_3$) then the ellipsoid
+density (or equally in the case of the deformed density if
+$\inf_{\x}\lambda_1(\x)>\sup_{\x}\lambda_2(\x)$) will observe a
+maximum at the values (compare with \eqref{ellipsoid})
+\begin{eqnarray}\label{qbeta}
+  \q(\beta) = \left\{
+  \begin{array}{lcr}
+    \beta \bu_2+\sqrt{1-\beta^2}\,\bu_3 & \text{if} & \beta\in[-1,1]\\
+    \text{sgn} \left(\beta\right) (|\beta|-1)\bu_2 -
+    \sqrt{1-(|\beta|-1)^2}\,  \bu_3 & \text{if} &
+    \beta\in[-2,2]\backslash[-1,1]
+  \end{array} \right. ,
+\end{eqnarray}
+noting the match to Figure \ref{fig:inrha}(e), (f) and (h).  This
+maximum great circle in $q$-space corresponds to the perpendicular
+vector $\pm\bu_1$ in space, where the diffusion PDF exhibits a
+maximum.  The structure near the peak ($\x=\pm\bu_1$) is mapped to a
+structure contiguous to the great-circle; i.e., $\q\approx\q(\beta)$,
+and now compare Figure \ref{fig:inrha}(a) with (b) and (d), with the
+corresponding frequency descriptions of \ref{fig:inrha}(e) with (f)
+and (h).  For this reason it is desirable to investigate the structure
+of the PDF near the great circle of points $\{\q(\beta)\}$, in terms
+of distances from the great circle.  To obtain consistency in
+notation, we define the set of points (or the great circle
+perpendicular to $\bu$) via $\cG(\bu)=\{\q:\bu^T\q=0,\|\q\|=q\}$ and
+$\cG(\bu_1)\equiv\{\q(\beta)\}$.  It is convenient to keep both sets
+of notation for ease of exposition.
+
+\section{Scalar Summaries and Test Statistics}
+
+\subsection{Axes of Symmetry}
+
+Before we can define appropriate scalar summaries in $q$-space,
+additional axes to the $\beta$ axis \eqref{qbeta} are required.  For
+any fixed vector $\q(\beta)\in\cG(\bu_1)$ we traverse a great circle
+using the vectors
+\begin{equation}\label{alphabetaplane}
+  \q_\perp(\alpha,\beta) = \alpha\bu_1\pm\sqrt{1-\alpha^2}\q(\beta),
+  \quad \alpha \in [-1,1],
+\end{equation}
+where for $\alpha\in\left[-2,2\right]\backslash[-1,1]$, the
+corresponding expression may be formed as in \eqref{qbeta}.  Such a
+great circle for a fixed value of $\beta$ will be referred to as a
+{\em perpendicular great circle}.
+
+An important component in the definition of our non-parametric
+summaries is the {\em dominant great circle} $\cG(\x_\text{max})$ with
+$\x_\text{max}$ given by
+\begin{equation}
+  \x_\text{max}=\arg \max_{\bu}\left\{ \oint_{\q\in\cG(\bu)}
+  {\cA}\left(\q\right)\;d\q \right\}.
+\end{equation}
+If ${\cA}\left(\q\right)$ is an isotropic diffusion process, then
+$\x_\text{max}$ is any vector in ${\mathbb{R}}^3$ with a fixed norm.
+Alternatively, if ${\cA}\left(\q\right)$ is ellipsoid with
+$\lambda_1>\lambda_2\ge \lambda_3$ then $\x_\text{max}=\bu_1$.  If
+there are two fibers, then with relative weightings $a_1$ and $a_2$ of
+fiber populations with $\bs{\Lambda}^{(1)}$ and $\bs{\Lambda}^{(2)}$
+the individual eigenvalues
+\begin{equation}
+  \x_\text{max} = \arg \max_{\bu}\left\{\left[ a_1
+    \oint_{\q\in\cG(\bu)}
+    {\cA}_E\left(\q;\bs{\Lambda}^{(1)},\bs{\Upsilon}^{(1)}\right) + a_2
+    \oint_{\q\in\cG(\bu)}
+    {\cA}_E\left(\q;\bs{\Lambda}^{(2)},\bs{\Upsilon}^{(2)}\right)\right]\;d\q
+    \right\}.
+\end{equation}
+For example if $a_1\gg{a_2}$ then $\x_\text{max}\approx\bu_1^{(1)}$,
+or if $a_1=a_2=1/2$ and the great circles do not separate, then
+$\x_\text{max}$ will lie precisely between the two maxima of the two
+PDFs.  Once the great circles start to separate the maximum will go
+with one of the two.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htbp]
+    \begin{minipage}[]{0.32\textwidth}
+      \centering
+      (a)
+      \includegraphics*[width=\textwidth]{pdfen11b.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.35\textwidth}
+      \centering
+      (b)
+      \includegraphics*[width=\textwidth]{pdfen11.eps}
+    \end{minipage}\\
+    \begin{minipage}[]{0.32\textwidth}
+      \centering
+      (c)
+      \includegraphics*[width=\textwidth]{pdfen13b.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.35\textwidth}
+      \centering
+      (d)
+      \includegraphics*[width=\textwidth]{pdfen13.eps}
+    \end{minipage}
+  \caption{One- and two-dimensional summaries of Gaussian diffusion
+    processes in $q$-space.  {\bf a,b:} Prolate diffusion process
+    ($\lambda_1\gg\lambda_2=\lambda_3$). {\bf c,d:} Mixture of two
+    Gaussian diffusion processes.  The dominant great circle is the
+    solid line in the one-dimensional summaries {\bf a,c}, while the
+    dotted line is the diffusion from a single perpendicular great
+    circle for ({\bf a}) and the average perpendicular diffusion for
+    ({\bf c}).  In the two-dimensional summaries ({\bf b} and {\bf d})
+    all great circles perpendicular to the dominant great circle are
+    plotted on the $y$-axis to form the $(\alpha,\beta)$ plane.}
+  \label{fig:Gaussian-PDF}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Degree of Non-Uniformity}
+
+We represent a unidirectional Gaussian diffusion by plotting the value
+of $\cA(\q(\beta))$ (solid line) for $\beta\in[-2,2]$ in
+Fig.~\ref{fig:Gaussian-PDF}a.  The magnitude on the dominant great
+circle is constant over different values of $\beta$ since
+$\lambda_2=\lambda_3$.  To illustrate the difference in variation
+across the dominant and perpendicular great circles we also plot the
+value of $\cA(\q_{\perp}(\alpha,\beta))$ as a function of $\alpha$ for
+a fixed $\beta$ (dotted line).  This line perfectly overlaps
+$\cA(\q(\beta))$ at two locations, as it collides with the dominant
+great circle when it wraps around the sphere, and decays symmetrically
+from $\q(\beta)$.
+
+We define a new coordinate system $(\alpha,\beta)$, where we expect
+consistent variability in $\alpha$ and $\beta$, using our
+parameterization of great circles \eqref{alphabetaplane}.  We plot the
+unidirectional Gaussian diffusion $\cA(\q_{\perp}(\alpha,\beta))$ for
+all perpendicular great circles in the plane
+(Fig.~\ref{fig:Gaussian-PDF}b).  This prolate diffusion exhibits
+variation only in $\alpha$, which is variation perpendicular to the
+dominant great circle.  For the prolate diffusion example we can
+therefore reduce the variance by averaging across $\beta$ and by
+considering the function strictly in terms of $\alpha$.  We also plot
+one-dimensional great-circle summaries for a mixture of two Gaussian
+diffusions in Fig.~\ref{fig:Gaussian-PDF}c, where the dominant great
+circle exhibits a large dynamic range relative to the perpendicular
+great circles.  In fact, one can determine the number of peaks of the
+diffusion PDF by comparing the dynamic range of the diffusion between
+the dominant and perpendicular great circles.  For a complete picture
+we also represent the multi-modal diffusion in the $(\alpha,\beta)$
+plane in Fig.~\ref{fig:Gaussian-PDF}d, where variation is appreciable
+in both the $\alpha$ and $\beta$ axes.
+
+To overcome the need to compare the variation along the dominant great
+circle with all perpendicular great circles individually, we define
+the {\em average perpendicular diffusion} via
+\begin{equation}\label{e:averagecont}
+  \cA_\perp(\alpha) = \frac{1}{4}\int_{-2}^2
+  \cA\left(\q_\perp(\alpha,\beta)\right) \, d\beta.
+\end{equation}
+One may also define the average perpendicular diffusion over a half
+circle by pre-specifying a fixed location on the dominant great circle
+and integrating in a window size $\pm1$ around this location.  This
+will prevent certain features being masked by the Hermitian symmetry
+of the $q$-space measurements.  If $\cA(\q)$ satisfies
+\eqref{ellipsoid}, then we have
+\begin{equation}\label{e:averagecont2}
+  \cA_\perp(\alpha) = \frac{1}{4}\int_{-2}^2
+  B\left(\sqrt{\lambda_1\alpha^2 + \left(1-\alpha^2\right) \left[\lambda_2
+  \|\q(\beta)^T \bu_2\|^2 + \lambda_3 \|\q(\beta)^T\bu_3\|^2
+  \right]}\right) \, d\beta.
+\end{equation}
+Thus, we are averaging the density function over small circles
+parallel to the dominant great circle and $\cA_\perp(\alpha)$ measures
+the average diffusion at a given value of $\alpha$.  In the special
+case of $\lambda_2=\lambda_3$, then
+\begin{equation}\label{e:averagecont3}
+  \cA_\perp(\alpha) = \frac{1}{4} \int_{-2}^2 B\left(\sqrt{\lambda_1
+  \alpha^2 + \lambda_2 \left[1-\alpha^2\right]}\right) \, d\beta =
+  B\left(\sqrt{\lambda_1 \alpha^2 + \lambda_2 \left[1-\alpha^2\right]}\right).
+\end{equation}
+The average perpendicular diffusion $\cA_\perp(\alpha)$ provides a
+useful summary of variation perpendicular to the dominant great
+circle.  We define a summary of the PDF via
+\begin{equation}\label{e:tau}
+ \tau = \left[\frac{\max_{\alpha}\{\cA_\perp(\alpha)\}}
+   {\min_{\alpha}\{\cA_\perp(\alpha)\}}\right] \bigg/
+   \left[\frac{\max_{\beta}\{\cA(\q_{\perp}(0,\beta))\}}
+     {\min_{\beta}\{\cA(\q_{\perp}(0,\beta))\}}\right] - 1. 
+\end{equation}
+If the diffusion is isotropic we find that
+$\lambda_1=\lambda_2=\lambda_3$ and in this case we have
+${\cA}_\perp(\alpha_\text{max}) = {\cA}_\perp(\alpha_\text{min}) =
+B\left(\sqrt{\lambda_1}\right)$ and $\cA(\q(0,\beta_\text{max})) =
+\cA(\q(0,\beta_\text{min})) = B\left(\sqrt{\lambda_1}\right)$.  In
+this special case $\tau=0$.  If the diffusion is ellipsoidal and
+$\lambda_2=\lambda_3$ then $\tau =
+B\left(\sqrt{\lambda_2}\right)/B\left(\sqrt{\lambda_1}\right)-1>0$.
+If we adopt the mixture model with multiple peaks then it is possible
+to get $\tau\gg0$ even if we do not have a single diffusion PDF, and
+hence we define
+\begin{equation}
+  \tilde{\tau} = \min_{\beta} \max_{\alpha_1,\alpha_2}
+  \left\{\frac{\cA\left(\q_\perp(\alpha_1,\beta)\right)}
+  {\cA\left(\q_\perp(\alpha_2,\beta)\right)}\right\} \bigg/
+  \left[\frac{\cA(\q_{\perp}(0,\beta_\text{max}))}
+  {\cA(\q_{\perp}(0,\beta_\text{min}))}\right] - 1.
+    \label{tautilde}
+\end{equation}
+We note that under isotropy $\tilde\tau\equiv0$ while if we have a
+single ellipsoid diffusion $\tilde\tau\equiv\tau>0$.  For a double
+tensor $\tilde\tau$ is more robust and will (in general) take on a
+lower value than that $\tau$ takes.  In contrast with $\tau$ and
+$\tilde{\tau}$ we could also study the variability in the $q$-space
+density directly in terms of the ODF.  \citet{Tuch} defines the
+generalized fractional anisotropy (GFA) by
+\begin{equation}
+  \text{GFA} = \left\{\frac{n\sum_{i=1}^{n}
+      \left(\text{ODF}_W(\theta_i,\phi_i) - \frac{1}{n}\right)^2}
+    {(n-1)\sum_{i=1}^n\text{ODF}_W^2(\theta_i,\phi_i)}\right\}^{1/2},
+\end{equation}
+and this measures the non-uniformity of the spatial distribution, as
+do also the normalized entropy and the nematic order parameter. While
+the GFA quantifies the lack of uniformity in the ODF, if there are
+more fibers than one, determining its statistical properties is
+non-trivial, unlike the case for $\tau$ and $\tilde{\tau}$.  Another
+such measure, generalized anisotropy \citep{Ozarslan2005} is defined
+in terms of the generalized trace of the tensor representation of the
+mean diffusivity.  
+% Neither can we determine its statistical properties, nor use it to
+% distinguish more than uniformity versus any alternative.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htbp]
+    \begin{minipage}[]{0.32\textwidth}
+      \centering
+      (a)
+      \includegraphics*[width=\textwidth]{pdfen12b.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.35\textwidth}
+      \centering
+      (b)
+      \includegraphics*[width=\textwidth]{pdfen12.eps}
+    \end{minipage}\\
+    \begin{minipage}[]{0.32\textwidth}
+      \centering
+      (c)
+      \includegraphics*[width=\textwidth]{pdfen14b.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.35\textwidth}
+      \centering
+      (d)
+      \includegraphics*[width=\textwidth]{pdfen14.eps}
+    \end{minipage}
+  \caption{One- and two-dimensional summaries of Gaussian diffusion
+    processes in $q$-space.  An asymmetric diffusion process is
+    displayed in {\bf a} and {\bf b} (this is apparent by the
+    asymmetric decay in great circles perpendicular to the dominant
+    great circle in the $(\alpha,\beta)$ plane).  A scalene diffusion
+    is displayed in {\bf c} and {\bf d}.  The dominant great circle is
+    the solid line in the one-dimensional summaries {\bf a,c}, while
+    the dotted line is the the average perpendicular diffusion over
+    $\beta\in[-2,0]$ for {\bf a} and all $\beta$'s for {\bf c}.  The
+    dashed line in (a) gives the average over all $\beta$'s.  In the
+    two-dimensional summaries all great circles perpendicular to the
+    dominant great circle are plotted on the $y$-axis to form the
+    $(\alpha,\beta)$ plane.}
+  \label{fig:Gaussian-PDF2}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Measures of Anisotropy}
+
+To determine the importance of the identified dominant great circle
+(or orientation) we can, with a model of \eqref{ellipsoid}, compare
+$B(\sqrt{\lambda_1})$ to $B(\sqrt{\lambda_2})$ and
+$B(\sqrt{\lambda_3})$.  We define the following {\em anisotropy
+statistic} to perform such a comparison
+\begin{equation}\label{e:anisotropy}
+  \xi = \frac{\log [{\cA}_\perp(0)]}{\log [{\cA}_\perp(1)]} =
+  \frac{\log [B\left(\sqrt{\lambda_2}\right)]}
+       {\log [B\left(\sqrt{\lambda_1}\right)]},
+\end{equation}
+where the last equality follows if $\lambda_3=\lambda_2$.  This
+statistic measures the degree of anisotropy over the $q$-space shell
+by comparing the peak-to-trough values (i.e. the value at the maximum
+great circle, compared to the value at the single point perpendicular
+to that maximum).  As an example Fig.~\ref{fig:Gaussian-PDF}a displays
+the difference between the maximum and minimum for an average
+perpendicular great circle.
+
+The {\em decay ratio statistic} quantifies the variability of the
+diffusion over the dominant great circle
+\begin{equation}\label{zieq}
+  \zeta =
+  \max_{\beta}\frac{\log[\cA(\q(\beta))]}{\log[\cA(\q(\beta+1))]}.
+\end{equation} 
+When the two smaller eigenvalues ($\lambda_2$ and $\lambda_3$) are
+approximately equal then $\zeta\approx1$, otherwise $\zeta\gg1$. The
+scalene diffusion in Figs.~\ref{fig:Gaussian-PDF2}c
+and~\ref{fig:Gaussian-PDF2}d exhibits such structure;
+i.e., $\zeta\gg1$.
+
+% To obtain some visual intuition regarding $\zeta$ we refer to
+% Figs.~\ref{fig:non-Gaussian-PDF}c and~\ref{fig:non-Gaussian-PDF}d,
+% where we compare the peak-to-trough values on the dominant great
+% circle using our knowledge that if the variability exists on the
+% dominant great circle due to two different eigenvalues in an
+% ellipsoidal~PDF then these will be spaced at $\beta=1$ unit apart.
+% We can then locate the axis of this variation by using the maximizer
+% of \eqref{zieq}.
+
+An indication of forking in white matter would correspond to an
+asymmetric decay of the diffusion~PDF associated with different decays
+depending on the parity of the deviation.  In this case we may no
+longer model the diffusion~PDF as ellipsoidal.  For example, in
+Figs.~\ref{fig:Gaussian-PDF2}a and~\ref{fig:Gaussian-PDF2}b we see
+that while there is still a strong orientation from the dominant great
+circle, the PDF no longer exhibits symmetric decay away from the
+dominant great circle.  However, note that the decay is symmetric in
+$\alpha$ when averaged over the full sphere to produce
+${\cA}_{\perp}(\alpha)$.
+
+Averaging over $\beta$ is no longer appropriate if we want to detect
+asymmetry since a symmetric distribution will be obtained from the
+Hermitian symmetry of the HARDI measurements when averaging over a
+full great circle.  Instead we define a suitable {\em asymmetry
+statistic} to measure potential asymmetry and we define
+\begin{eqnarray}
+  \kappa(\beta) &=& \frac{2\int_{0}^{1}
+    \left[\cA\left(\q_\perp(\alpha,\beta)\right) -
+      \cA\left(\q_\perp(-\alpha,\beta)\right)\right] \, d\alpha}
+        {\frac{1}{4} \int_{0}^{4}
+          \cA\left(\q_\perp(\alpha,\beta)\right) \, d\alpha},\\
+        \beta_\text{max} &=& \arg \max\kappa(\beta),\\
+        \kappa &=& \int_{\beta_\text{max}-1/2}^{\beta_\text{max}+1/2}
+        \kappa(\beta) \, d\beta.
+\end{eqnarray}
+The definition of $\kappa$ is to both obtain a test statistic with
+sufficient power and also to reduce its variance.  The discrete
+approximation to $\kappa$ will have smaller variance then
+$\kappa(\beta_\text{max})$ has.  Asymmetry in the decay from the main
+peak may occur when the PDF is a mixture of diffusions with varying
+strengths.  If the two populations are sufficiently separated and
+equivalent in magnitude then this will be indicated by $\tau$ and/or
+$\tilde\tau$, and the diffusion will be recognized as a ``crossing
+fiber''.  If the mixture of diffusions contains two different
+strengths, then the dominating PDF will be recognized when determining
+$\x_\text{max}$.  The remaining structure will not be fully consistent
+with a single tensor and will (in general) appear to be asymmetric
+compared to the dominant great circle.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[!htbp]
+  \caption{The structure of the proposed models.}
+  \label{summaryofprop}
+    \begin{tabular}{lcccccc}
+      \hline
+      Hypothesis & Statistic & isotropic & prolate & scalene & mixture & heterogeneous\\ 
+      \hline
+      Anisotropy & $\tau$ & small & large & large & small & large \\ 
+      Multimodal/unimodal & $\tilde{\tau}$ & small & large & large & small & large \\ 
+      Multimodal/isotropic & $\xi$ & one  & small & small & small & small\\
+      Ellipsoidal & $\zeta$& - & one & large & - & large\\
+      Asymmetry & $\kappa$& - & zero & zero & - & large\\
+      \hline
+    \end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Let us discuss models that will lead to different structure in the
+proposed summaries. We refer to table \ref{summaryofprop} to summarize
+the properties of the summaries, and different PDFs lead to different
+structure.  It may seem insufficient to consider only an isotropic
+PDF, a single peak, a double peak, or something more heterogeneous.
+However, even with a fully parametric model with a Gaussian DTI
+framework, a two tensors model has 13 (identifiable) parameters and a
+three tensor model has 19.  If one considers acquiring 60 gradient
+encoding directions, then one is forced to fit three peaks with an
+average of three degrees of freedom per parameter resulting in quite
+noisy parameter estimates -- especially at higher $b$-values where the
+orientational heterogeneity can be well resolved.  Pushing much beyond
+a small number of parameters or features of interest is not advisable
+with such sampling.
+
+\section{Estimation}
+\label{matmeth}
+
+\subsection{Parameterizing the $(\alpha,\beta)$ axes}
+
+Having proposed various summaries of the population of PDFs at a
+particular voxel, these must now be estimated from a set of diffusion
+measurements.  The dominant direction is estimated by
+\begin{equation}
+\label{eq:lala}
+\widehat{\bu}_\text{1}= \x_\text{max}=\arg \max_{ \bu,\;\|\bu\|=1}\left\{
+\int_{\q\in {\cal G}(\bu)}\widehat{\cA}\left(\q\right)\;d\q
+\right\}\equiv \arg \max_{\x} \text{FRT}\{\wh\cA\}(\x),
+\end{equation}
+where $\text{FRT}\{\cdot\}$ denotes the Funk-Radon Transform (FRT) as
+utilized in \citet{Tuch}.  Note that $\wh\cA(\q)$ refers to the
+multiresolution-based estimator in \citet{OlhedeWhitcher} but may be
+replaced by another appropriate estimator.  We assume the availability
+of $(\wh{\sigma}^{\ast})^2$ an estimator of the variance of the error
+in $A(\q_k)$, namely $\sigma^2$.  The variance of $\wh\cA(\q_k)$ is
+assumed to be $\tilde{\sigma}^2\le \sigma^2$ and the variance of an
+interpolated value of the PDF is
+$\breve{\sigma}^2\le\tilde{\sigma}^2\le \sigma^2$.  The integral may
+be approximated numerically by interpolating the observed HARDI
+measurements at evenly-spaced points along several great circles, each
+perpendicular to some $\x_i$.  
+
+The effects of using different numerical methods for this step is a
+trade-off between increasing numerical accuracy and decreasing
+variance.  Interpolating using spherical harmonics reduces variance,
+but can smooth out details depending on the choice of regularization,
+see also the discussion in \citet{Descoteaux} and \citet{Hess}.  We
+instead use a locally linear interpolation on the polar representation
+of the data, specifically enforcing the periodicity of the data.
+Simple structures in terms of the observed points, can mix over
+several spherical harmonics, and so the magnitude of individual
+spherical harmonic coefficients may not be large, even if the local
+coefficient is, thus making the representation inappropriate for using
+the smoothing methods of previous authors.  The choice of
+interpolation procedure should be considered in terms of which
+statistic one is using, as the variance and bias must be balanced
+specifically for {\em this} purpose.  We also note that spherical
+harmonics do not possess the same properties as Fourier vectors, and
+that an infinite number of harmonics are required for perfect
+reconstruction.
+
+The spatial maximum is determined from
+$\{\text{FRT}\{\cA\}(\x_i)\}_i$.  The spatial location $\x_\text{max}$
+is thus an {\em estimator} of $\bu_1$ and we estimate a vector in the
+linear subspace spanned by $\bu_2$ and $\bu_3$ from the eigensystem of
+$\bld{I}-\x_\text{max}\x_\text{max}^T$, this yielding $\hat\bu_2$ and
+$\hat\bu_3$, that maximise the difference in decay in the two axes.
+For numerical implementation we sample the estimated dominant great
+circle by discretizing $\alpha$ to $\left\{\alpha_j\right\}_{j=1}^N$
+and $\beta$ to $\left\{\beta_k\right\}_{k=1}^N$, for an even integer
+$N$.  A discretized version of \eqref{qbeta} is then given by
+\begin{equation}\label{e:discgreatcircle}
+  \hat\q_k = \left\{
+  \begin{array}{lcr}
+    \beta_k \hat\bu_2 + \sqrt{1-\beta_k^2} \hat\bu_3, \, \beta_k =4k/N-1
+    & \text{for} & k = 1,\dots,N/2;\\
+    \beta_k \hat\bu_2 - \sqrt{1-\beta_k^2} \hat\bu_3, \, \beta_k=4k/N-3
+    & \text{for} & k = N/2+1,\dots,N.
+  \end{array} \right.
+\end{equation}
+This then allows us to discretize the estimated dominant great circle
+via $\left\{\hat\q_k\right\}$.  Once $\x_\text{max}$ has been
+determined we characterize the diffusion directly in $q$-space.  We
+introduce additional notation by defining the sampled great circle
+vectors for $\left\{\hat\q_k\right\}$ in \eqref{e:discgreatcircle} as
+\begin{equation}\label{e:discperpgreatcircle}
+  \hat\q_{\perp jk} = \left\{
+  \begin{array}{lcr}
+    \alpha_j \hat\bu_{1} + \sqrt{1-\alpha_j^2} \hat\q_{k}, \,
+    \alpha_j = 4j/N-1 & \text{for} & j = 1,\dots,N/2;\\ 
+    \alpha_j \hat\bu_{1} - \sqrt{1-\alpha_j^2} \hat\q_{k}, \,
+    \alpha_j = 4j/N-3 & \text{for} & j = N/2+1,\dots,N.
+  \end{array} \right.
+\end{equation}
+A discretized version of the average perpendicular diffusion
+\eqref{e:averagecont} is given by $\wh\cA_\perp(\alpha_j) =
+\frac{1}{N}\sum_{k}\wh\cA(\hat\q_{\perp jk})$.
+
+\subsection{Diagnosing Non-Uniformity}
+
+In order to test large-scale properties of the diffusion directly in
+$q$-space, we consider the following statistical hypothesis
+$H_0:\cA(\q)=\cA~\forall\q$ versus $H_1:\cA(\q)=\cA_E(\q)$.  Our test
+statistic is based on a discretized version of \eqref{e:tau}, given by
+\begin{equation}
+  T = \left[\frac{\max_j\{\wh{\cA}_\perp(\alpha_{j})\}}
+    {\min_j\{\cA_\perp(\alpha_{j})\}}\right] \bigg/
+  \left[\frac{\max_k\{\cA(\hat{\q}_{ k})\}}
+    {\min_k\{\cA(\hat{\q}_{ k})\}}\right] - 1.
+\end{equation}
+The distribution of this test statistic is derived in
+Appendix~\ref{disttm}.  If the observations are isotropic, then the
+properties along the dominant great circle will be equivalent to the
+properties on the perpendicular great circle (barring
+random/discretization errors).  We therefore use, with $\hat\q_k$
+defined by \eqref{e:discgreatcircle}, as estimators for $\cA$ and
+$\tilde\sigma$ under the null of
+$\wh{\cA}(\wh{\q}_k)\cong\cA+\tilde\sigma\epsilon$,
+\begin{equation}\label{e:estunderh0}
+  \ol{\cA}_N = \frac{1}{N} \sum_{k=1}^N \wh{\cA}(\hat\q_k) \quad
+  \text{and} \quad \hat\sigma_{\cA} = \sqrt{\rho} \,
+  \text{MAD}\left\{\wh{\cA}(\hat\q_k)-\ol{\cA}_N:k=1,\dots,N\right\},
+\end{equation}
+where $0<\rho\le{3}$.
+%\footnote{The Median Absolute Deviation (MAD) estimator of scale of a sample $\{X_k\}_{k=1}^N$ is given by $\text{MAD}\{X_k\}={\text{median}}\left\{|X_1|,\dots,|X_N|\right\}/0.6745$ \citep{Percival2000}[p.~420].}.  
+These equations provide estimators of the mean value of the isotropic
+diffusion and the standard deviation of $\wh{\cA}(\q)$ at the observed
+measurements.  The parameter $\rho$ is a constant depending on the
+linear interpolation method used for the implementation.  Taking a
+value of $\rho=3$ is suitable for our choice of numerical
+interpolation and we define
+\begin{equation}\label{e:Um}
+  U = T \frac{\overline{\cA}_N}{\hat\sigma_{\cA}}.
+\end{equation}
+We can compute the critical value $u_{\alpha}$ using the fact that
+$F_U(u_{\alpha})=1-\alpha$, where $F_U(\cdot)$ is given by
+\eqref{distributiondir}.  We report two critical values here,
+$u_{0.05}=0.1185$ for the $m$ which is consistent with our sampling
+scheme, and $u_{0.05}^{(\text{con})}=1.9637$ with a conservative
+distribution approximation.
+
+% Using simulation studies to understand the PDF of $T$ will not work
+% in most cases in this scenario (see \citet{ale-bar-arr:detection} for
+% such simulation studies of similar statistics), as the parameters of
+% the distribution of $T$ depend on the true, but unknown, values of
+% $\cA$ and $\cA_\text{min}$.  Given a sufficiently large sample from
+% a population of homogeneous voxels it is possible to use
+% simulation-based methods to separate voxels coming from a single
+% prolate diffusion~PDF versus multiple tensors.  However, such a
+% data-driven approach is not appropriate in practice when only a
+% single voxel is available to characterize any given
+% population. Distributions arrived at from different parameter
+% settings cannot be easily generalized.  The test statistic $U$
+% defined in \eqref{e:Um} has, to first order, a distribution under
+% $H_0$ that does not depend on any unknown parameters -- this making
+% it a valid statistic.
+
+We also develop a new test based on a null of a multi-modal diffusion,
+where we define multi-modal in terms of
+$(\wt{\cA}_{\text{max}}\cA_\text{min}) /
+(\wt{\cA}_{\text{min}}\cA_\text{max})<c=2$, say, where
+$\wt{\cA}_{\text{max}}$ and $\wt{\cA}_{\text{min}}$ are the maximum
+and minimum on the perpendicular great circle minimizing
+\eqref{tautilde} in $\beta$, respectively, while $\cA_{\text{max}}$
+and $\cA_{\text{min}}$ are the maximum and minimum on the dominant
+great circle.  The level $c$ is fairly arbitrary, but to develop a
+powerful method of separating the clearly unimodal from the
+multi-modal some level must be chosen, based on the deterministic
+structure of the sampled PDF.  To separate the unimodal from the
+multimodal we start from $\tilde{\tau}$ and define
+\begin{equation}
+  \wt{T} = \min_{k} \left\{\max_{{j_1},{j_2}} 
+  \left\{\frac{\wh{\cA}\left(\hat\q_{\perp j_1 k}\right)}
+              {\wh{\cA}\left(\hat\q_{\perp j_2
+  k}\right)}\right\}\right\}
+              \bigg/ \left[\frac{\max_k\{\wh{\cA}(\hat\q_{k}))\}}
+                {\min_k\{\cA(\hat\q_{k})\}}\right] - 1.
+\end{equation}
+We shall now choose to distinguish the multimodal from the unimodal,
+and so normalize by $\wt{U} = (\wt{T}-[c-1])
+\wh{\cA}_{\text{min}}/(\hat\sigma_{\cA}\sqrt{2c^2+2})$, where
+$\wh{\cA}_{\text{min}}=\wh{\cA}(\wh{\bm{\upsilon}}_1)$.  The
+distribution of this test statistic is derived in
+Appendix~\ref{disttm}, under the specified null hypothesis.
+
+If on the other hand we have failed to reject the null hypothesis
+``$\cA(\q_{\perp}(\alpha,\beta))$ {\em equally} variable in $\beta$
+for $\alpha=0$ as it is in $\alpha$ for a fixed $\beta$,'' then based
+on the $T$-statistic we need to distinguish voxels that indicate two
+fiber populations versus isotropic voxels.  We define a discrete
+version of \eqref{e:anisotropy} to be
+\begin{eqnarray}\label{e:degreeofanisotropy}
+  X = \frac{\log[\wh{\cA}_\perp(0)]}{\log[\wh{\cA}_\perp(1)]}.
+\end{eqnarray}
+We can interpret $\xi$, and the sample version $X$, as the degree of
+anisotropy from the average perpendicular great circle.  The ADC is
+defined at a set of defined $\q$ vectors $\tilde{\q}_j$ as
+$\wh{C}(\tilde\q_j)=-b^{-1}\log[{A(\tilde\q_j)}]$
+\citep{ale-bar-arr:detection}.  We recognize that the statistic $X$ is
+comparing the average ADC on the great circle to the average ADC
+perpendicular to the great circle, or that
+\eqref{e:degreeofanisotropy} may be re-written in terms of the ADC at
+a fixed value of $b$ via
+\begin{equation}
+  X = \sum_k\wh{C}(\hat\q_k)/\sum_k\wh{C}(\hat\q_{\perp N/4 k})).
+\end{equation}
+With an assumption of ellipsoidal structure, {\em cf}
+\eqref{ellipsoid}, we have averaged the ADC to reduce variance when
+estimating $\xi$ without accruing bias.  We define $X_k$ as the sample
+anisotropy calculated using only the $k$th perpendicular great circle,
+or
+$X_k=\log[\wh{\cA}(\hat\q_{k})]/\log[\wh{\cA}(\hat\q_{\perp{N/4}k})]$,
+and refer to \eqref{e:discperpgreatcircle} for the definition of
+$\hat\q_{\perp jk}$.  Under moderate-to-high SNR we may approximate
+this as a Gaussian random variable.  We quantify uncertainty, when
+there are potentially several peaks, using
+$\hat\sigma_2=\min\{\hat\sigma_{\cA},\hat\sigma^{\ast}\}$, where
+$\hat\sigma_{\cA}$ is defined in \eqref{e:estunderh0} and
+$\wh{\sigma}^{\ast}$ is the available estimator for $\sigma$.  By
+using the minimum we ensure that the variance is never estimated as
+greater than before smoothing.
+
+For those voxels where we do not reject isotropy, we may now
+distinguish between isotropy and a multiple-tensor model using the
+$X$.  We define
+\begin{equation}
+ Q = \frac{\rho(X-1)}{\hat\sigma_{2}}
+  \left|\overline{\cA}_N\log\overline{\cA}_N\right|
+\end{equation}
+as the test statistic for multimodality. So we consider the test
+$H_0:\cA(\q)=\cA~\forall\q$ versus
+$H_1:\max_k\{\cA(\q_{k})\}\gg\min_k\{\cA(\q_{k})\}$ (multiple peaks)
+and use $Q$ as the test statistic, whose distribution under the null
+is found in Appendix~\ref{threshxi}.  These three tests allow us to at
+a single voxel diagnose the structure of the PDF, where $U$ is used to
+separate anisotropic PDFs from isotropic PDFs, $\wt{U}$ is used to
+separate ellipsoid PDFs from multimodal PDFs and $Q$ is used to
+separate multimodal from isotropic PDFs.
+
+\subsection{Diagnosing Asymmetry}
+
+Having established methodology to discriminate the number of peaks in
+the diffusion~PDF at a single voxel, we now provide additional
+methodology to characterize the diffusion~PDF as scalene versus other
+forms of asymmetry; e.g., to observe an indication of forking.  We
+start by determining
+\begin{equation}
+  k_\text{max} = \arg\max_{1\le k\le N/4}
+  \frac{\log\wh{\cA}(\hat{\q}_k)}{\log\wh{\cA}(\hat{\q}_{k+N/4})}.
+\end{equation} 
+We define the parameters $m<m'<2m$ (recall that $m$ is the effective degrees
+of freedom) for robustness
+so that
+\begin{equation}
+\label{defofZ}
+  Z =\frac{\log\wh{\cA}\left(\hat{\q}_{{k}_\text{max}+N/(2m')}\right)}
+  {\log\wh\cA\left(\hat{\q}_{{k}_\text{max}+N/(2m')+N/4}\right)}.
+\end{equation}
+We remark that $Z$ is related in some sense to $X_k$ (refer to Figs.
+\ref{fig:Gaussian-PDF} and \ref{fig:Gaussian-PDF2}); $X_k$ compares
+the value of the diffusion on location $k$ on the dominant great
+circle ($\alpha=0$) to the value at the perpendicular to the dominant
+great circle ($\alpha\neq 0$), whereas $Z$ in contrast looks at the
+difference in values of the diffusion on the great circle itself
+($\alpha=0$ and $\beta$ varies).  Under the null hypothesis
+$\cA(\cdot)$ is constant on the great circle, and if the medium and
+minor eigenvalues are approximately equal then
+$\E\{Z\}=\zeta\approx{1}$, otherwise $\zeta\gg1$.  We define a
+normalized version of the decay ratio statistic \eqref{defofZ}, given
+by
+\begin{equation}
+  V = \frac{(Z-1)\left|\overline{\cA}_N\log\overline{\cA}_N\right|}%
+  {\hat\sigma_2} .
+\end{equation}
+A suitable threshold for this statistic may be found in
+Appendix~\ref{threshzeta}.  The statistics $Q$ and $V$ used to test
+different hypotheses of non-isotropic decay, have similar forms.
+
+The summary $\kappa$ allows us to diagnose structure inconsistent with
+a single ellipsoid diffusion.  Departures from a single ellipsoid
+diffusion structure could be attributable to partial volume effects,
+or a heterogeneous population of fibers.  For such a model,
+\eqref{ellipsoid} is no longer appropriate and we would rather fit a
+mixture model with unequal populations; or possibly
+$\cA_{DE}\left(\cdot \right)$.  In such circumstances one cannot use
+the average perpendicular great circle to uncover asymmetry since
+averaging over all possible $\beta$'s will produce a symmetric
+distribution regardless of the underlying fiber characteristics.
+Taking $\breve{k}_\text{max}=\arg\max_k{P_k}$ we define the {\em
+  asymmetry statistic} by
+\begin{equation}
+  K = \frac{1}{N/4+1}
+  \sum_{k=\breve{k}_\text{max}-N/8}^{\breve{k}_\text{max}+N/8} P_k,\;
+  P_k = \frac{8\sum_{j=1}^{N/4-1} \left[\wh{\cA}(\hat\q_{\perp jk}) -
+        \wh{\cA}(\hat\q_{\perp(j+N/4)k})\right]} {\sum_{j=1}^N
+        \wh{\cA}(\hat\q_{\perp jk})},
+\end{equation}
+Full details on the distribution of this test statistic may be found
+in Appendix~\ref{threshkappa}.  We have chosen $N/8$ to improve the
+power -- averaging decreases the variance, but the asymmetry is
+greatest near the maximum (compare with Figure
+\ref{fig:Gaussian-PDF2}(b)).  For tests at a specific voxel we perform
+the hypothesis test $H_0:\kappa=0$ versus $H_1:\kappa\neq0$, using
+quantiles from the standard Gaussian~PDF $\phi(\cdot)$.  This
+identifies diffusion~PDFs that are non-Gaussian in terms of the parity
+structure in the principal axes.  However, it does not compare the
+maximum and minimum of a perpendicular great circle, rather it finds a
+set of perpendicular great circles for which the decay around the
+dominant great circle is asymmetric and estimates this average
+asymmetry; e.g., Figure~\ref{fig:Gaussian-PDF2}(b).
+
+% It is also possible to extend these methods to multiple shells
+% instead of typical HARDI sampling \citep{Wu2007}.  In this case the
+% statistics are calculated for each shell, and averaged over the
+% different shells. The dominant orientation would be estimated by a
+% weighted averaging of the estimated dominant orientations for each
+% shell, as its distribution is SNR dependent, which changes at each
+% shell.
+
+The usage of the statistics is now combined at a voxel level. The most
+important characteristic is to classify the voxel as isotropic, single
+peak, or multiple peak. With this information the local structure of
+the peaks can be further characterised at a local level: when
+comparing the PDFs between voxels for tracking first the number of
+voxels is important, and after the mixture components is matched to
+the most appropriate component from its local characteristics, we can
+anticipate varying asymmetry values before forking structure; as shall
+be further discussed in the applications section.
+
+\subsection{Example: Crossing and Forking Fibers}
+
+We consider two typical heterogeneous white-matter structures, a
+crossing fiber and a forking fiber in Fig.~\ref{fig:evolution}.  The
+spatial representation of the forking fiber is the first row,
+enumerated by (i), while the $q$-space representation of the forking
+fiber is on the second row, enumerated by (ii).  In the spatial
+representation, we see a single fiber population in voxel~(i,a) and as
+we traverse from left-to-right the two populations become more
+apparent until a second fiber appears in voxel~(i,g).  The $q$-space
+version of these two populations shows a scalene distribution
+developing in voxels~(ii,b)--(ii,e).  As the forking progresses from
+left-to-right it appears both highly warped and scalene until the
+distribution clearly displays multiple fibers in voxel~(iii,g).  These
+fibers were generated by aggregating two densities or
+\begin{equation}\label{example-fibers}
+  \cA(\q) = a_1(t) \cA_g(\q; \bm{\Lambda}^{(1)}(t),
+  \bm{\Upsilon}^{(1)}(t))+(1-a_1(t)) \cA_g(\q; \bm{\Lambda}^{(2)}(t),
+  \bm{\Upsilon}^{(2)}(t)).
+\end{equation}
+In the case of the forking fiber $a_1(t)=1-t$ and the angle between
+the principal direction of $ \bm{\Upsilon}^{(1)}(t))$ and $
+\bm{\Upsilon}^{(2)}(t))$ $\pi{t/2}$, with the individual tensors
+taking values similar to $\cA_1(\q)$ and $t\in[0,1]$.  The spatial
+representation of the crossing fiber is the third row (iii), with its
+corresponding $q$-space representation in the fourth row (iv).  The
+ellipsoid appears prolate in voxel~(iii,a), then two fiber populations
+are present in voxel~(iii,d) and eventually the fiber population
+returns to a prolate shape.  With respect to the parameterization of
+the crossing fiber in \eqref{example-fibers},
+$a_1(t)\in\{0,0.25,0.5\}$ and the two fibers cross at 90~degrees with
+parameters similar to $\cA_1(\q)$.
+
+The description of the crossing fiber is in many ways simpler than the
+forking.  Table~\ref{raw_properties} lists the summary statistics
+($\tau,\tilde\tau,\xi,\zeta,\kappa$) for the crossing and forking
+fiber examples in Fig.~\ref{fig:evolution}.  Note that these
+deterministic summaries have not been normalized, unlike the
+statistics in Section~\ref{matmeth}.  The mixture of populations of
+unequal strength in the forking fiber shows a number of
+characteristics not found in the crossing fiber.  For example, the
+forking fiber is clearly diagnosed as a single population until
+voxels~(i,e), (i,f) and (i,g), where there is increasing heterogeneity
+in the fiber population.  This is exhibited by increasing values for
+the decay ratio $\zeta$-statistic, and the asymmetry
+$\kappa$-statistic.  For the crossing fiber, we clearly detect the
+multiple-fiber population in voxel~(iii,d) using either the $\tau$ and
+$\tilde\tau$ statistics.  The multiple-fiber characteristics in the
+forking example are more complex, where the second fiber population is
+initially dominated by the first.  If we examine the crossing fiber
+more closely there is little apparent asymmetry and we can compare the
+asymmetry statistic, where $\kappa\approx{0}$ versus
+$0.15\leq{\kappa}\leq0.45$ for voxels~(i,c)--(i,e).  To distinguish
+the clear multi-tensors from uniformity we observe that $\xi<1$, which
+is the expected value under the hypothesis of isotropy.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htbp]
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      (a)
+      \includegraphics*[width=\textwidth]{figure1a1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      (b)
+      \includegraphics*[width=\textwidth]{figure1e1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      (c)
+      \includegraphics*[width=\textwidth]{figure1f1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      (d)
+      \includegraphics*[width=\textwidth]{figure1g1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      (e)
+      \includegraphics*[width=\textwidth]{figure1h1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      (f)
+      \includegraphics*[width=\textwidth]{figure1i1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      (g)
+      \includegraphics*[width=\textwidth]{figure1j1.eps}
+    \end{minipage}
+    \\(ii)
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure2b1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure2f1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure2g1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure2h1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure2i1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure2j1.eps}
+    \end{minipage}  
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure2k1.eps}
+    \end{minipage}\\
+    (iii)
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure3a1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure3a1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure3b1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure3c1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure3b1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure3a1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure3a1.eps}
+    \end{minipage}\\
+    (iv)
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure4a1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure4a1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure4b1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure4c1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure4b1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure4a1.eps}
+    \end{minipage}
+    \begin{minipage}[]{0.12\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{figure4a1.eps}
+    \end{minipage}
+  \caption{An illustration of the evolution of a diffusion~PDF through
+    a number of adjacent voxels.  The first and second rows are the
+    spatial and $q$-space evolution, respectively, of the
+    diffusion~PDF for a forking fiber.  The third and fourth rows are
+    the spatial and $q$-space evolution, respectively, of the
+    diffusion~PDF for a crossing fiber.}
+  \label{fig:evolution}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[!htbp]
+  \caption{Discretized statistics based on non-parametric measures of
+    symmetry for a simulated forking and crossing fiber, compare with
+    Table~\ref{summaryofprop}.}
+  \label{raw_properties}
+  \begin{tabular}{cccccccc}
+    \hline
+Statistic        & \multicolumn{7}{c}{Forking fiber}\\
+\cline{2-8}
+                 & (i,a) & (i,b) & (i,c) & (i,d) & (i,e) & (i,f) & (i,g)\\
+\hline
+$\tau$           & 10.18  & 5.12 & 3.35 & 1.86 & 0.82 & 0.07 & -0.14\\
+$\tilde{\tau}$   & 8.98  & 4.94 & 3.36 & 2.13 & 1.19 & 0.33 & -0.07\\
+$\xi$            & 0.12  & 0.18 & 0.21 & 0.27 & 0.35 & 0.53  & 0.69\\
+$\zeta$          & 1.03  & 1.51 & 1.72 & 1.91 & 2.06 & 2.21  & 2.67\\
+$\kappa$         & -0.01 & 0.03 & 0.17 & 0.35 & 0.45 & 0.54  & 0.30\\
+\hline
+                 & \multicolumn{6}{c}{Crossing fiber}\\
+\cline{2-8}
+                 & (iii,a) & (iii,b) & (iii,c) & (iii,d) & (iii,e) & (iii,f)\\
+\hline
+$\tau$           & 9.19 & 9.19 & 1.15 & -0.14 & 1.15 & 9.19\\
+$\tilde\tau$     & 8.98 & 8.98 & 1.26 & -0.07 & 1.26 & 8.98\\
+$\xi$            & 0.12 & 0.12 & 0.32 &  0.69 & 0.32 & 0.12\\
+$\zeta$          & 1.04 & 1.04 & 1.74 &  2.67 & 1.74 & 1.04\\
+$\kappa$         & 0.00 & 0.00 & 0.09 &  0.30 & 0.09 & 0.00\\
+\hline
+  \end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Simulation Study}
+
+We illustrate the properties of the proposed $q$-space summary
+statistics for the diffusion~PDF on a variety of simulated diffusions
+processes.  The following six models attempt to cover common, and not
+so common, diffusion processes that include both unimodal and multiple
+tensors
+\begin{eqnarray}
+\label{e:A5}
+  \cA_1(\q) &=& \exp(-t \q^T \wt{\bld{D}}_i \q), \; i=1,2,3,\\
+  \wt{\bld{D}}_1 &=& 68 \tilde\be_1 \tilde\be_1^T + 8\tilde\be_2 
+  \tilde\be_2^T + 8\tilde\be_3 \tilde\be_3^T,\nonumber\\ 
+  \wt{\bld{D}}_2 &=& 68 \tilde\be_1 \tilde\be_1^T + 15\tilde\be_2 
+  \tilde\be_2^T + \tilde\be_3 \tilde\be_3^T,\nonumber\\
+  \wt{\bld{D}}_3 &=& 28\tilde\be_1 \tilde\be_1^T + 28\tilde\be_2 
+  \tilde\be_2^T + 28\tilde\be_3 \tilde\be_3^T, \nonumber\\
+  \cA_4(\q) &=& 0.5 \exp(-t \q^T \wt{\bld{D}}_1 \q) + 0.5 \exp(-t \q^T
+  \wt{\bld{D}}_4 \q),\\
+  \wt{\bld{D}}_4 &=& 68\tilde\be_2 \tilde\be_2^T + 8\tilde\be_1 
+  \tilde\be_1^T + 8\tilde\be_3 \tilde\be_3^T,\nonumber\\
+  \cA_5(\q) &=& \exp\left(-11t |\q^T\tilde\be_2|^2\right)
+  \Big|\exp\left(-68t |\q^T\tilde\be_1|^2\right)\\
+  && \times \left[\exp\left(-0.2t |\q^T\tilde\be_3|^2\right) + 
+    \exp(-35t |\q^T\tilde\be_3|^2)\right] \nonumber\\ \nonumber
+  && + \frac{4}{\pi}D\left(\sqrt{68t} \q^T \tilde\be_1\right)
+  \left[D\left(\sqrt{35t} \q^T \tilde\be_3\right) -
+  D\left(\sqrt{0.2t}\q^T \tilde\be_3\right)\right]\Big|, \\
+  \cA_6(\q) &=&0.3\exp(-t \q^T \wt{\bld{D}}_1 \q)+0.7
+  \exp(-t \q^T \wt{\bld{D}}_5 \q),\\
+  \wt{\bld{D}}_5 &=& 42.5\breve\be_1\breve\be^T_1 + 14\breve\be_2 
+  \breve\be^T_2 + 20\breve\be_3 \breve\be^T_3, \nonumber
+\end{eqnarray}
+where $D(x)=\exp(-x^2)\int_0^x\exp(t^2)\,dt$ is the Dawson function
+\citep{abra}.  We define $\tilde\be_j=\R\be_j$, where the matrix $\R$
+rotates the axes $(\be_1,\be_2,\be_3)$ to a new coordinate system
+$(\tilde\be_1,\tilde\be_2,\tilde\be_3)$.  This extra step is added to
+protect against systematic bias in our estimation procedure due to the
+diffusion~PDF coinciding with the sampling grid.  In $\cA_6(\q)$ this
+rotation is not implemented, but
+$(\breve\be_1,\breve\be_2,\breve\be_3)$ has been rotated with respect
+to $(\be_1,\be_2,\be_3)$ to produce an asymmetric diffusion in the
+multiple-tensor model.
+
+We have chosen to define $\wt{\bld{D}}_i=4\times10^{10}\bld{D}_i$,
+$i=1,\dots,4$, and normalized $\|\q\|=1$.  With $t=0.04$ this
+corresponds to $b=4t\times10^{10}=1600\,\text{s/mm}^2$
+\citep{Alexander2005} and the trace of the first three non-normalized
+matrices $\bld{D}_i$ as $2.1\times10^{-9}\,\text{m$^2$/s}$.  The
+function $\cA_5(\q)$ is obtained from the magnitude of the FT of an
+asymmetrically decaying diffusion process in space.  We illustrate a
+range of behavior for the scalar statistics defined in $q$-space using
+these test functions, providing only a subset in order to compare and
+contrast their performance.  We simulate 1000 realizations for each
+test function and add Gaussian noise with standard deviation of
+$\cA(0)/2$, $\cA(0)/10$, $\cA(0)/20$ and $\cA(0)/30$ to both the real
+and imaginary channels using 60 gradient directions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[!htbp]
+  \caption{Hypothesis tests for the six diffusion processes
+    $\{\cA_i\}_{i=1}^6$.  The nominal size of the tests is $5\%$ for
+    $U$, $V$ and $Q$, while the nominal size is $10\%$ for $K$ and
+    $\wt{U}$.  The tests have been carried out at different SNRs.}
+    \begin{tabular}{lccccccc}
+      \hline
+      Hypothesis & Statistic & $\cA_1$ & $\cA_2$ & $\cA_3$ & $\cA_4$ & $\cA_5$ & $\cA_6$\\ 
+\hline
+$H_0/H_1,$ SNR=$1/30$ & & prolate & scalene & isotropic & crossing & asymmetric & asymmetric\\
+\hline
+      Non-Preference/Anisotropy & $U$ &  1000 & 988  & 26 & 492 & 1000 & 802\\ 
+Circular/Ellipsoidal & $V$ & 146/1000 & 924/988 & 0/26 & 382/492 & 120/1000 & 495/802\\
+      Symmetric/Asymmetric & $K$ & 191/1000 & 108/988 & 10/26 & 258/492 & 491 /1000&
+      208/802 \\ 
+      Isotropic/Multimodal& $Q$ & 0/0 & 12/12 & 21/974  & 420/508 & 0/0 & 195/198\\ 
+      Multimodal/Unimodal & $\wt{U}$ & 991/1000 & 136/988 & 0/26 & 239/492 &  996/1000 & 19/802\\
+      \hline
+$H_0/H_1,$ SNR=$1/20$ & & & & & & & \\
+\hline
+      Non-Preference/Anisotropy & $U$ & 1000 & 855 & 26 & 484 & 1000 & 727\\ 
+Circular/Ellipsoidal & $V$ & 153/1000 & 794/855 & 0/26 & 338/484 & 148/1000 & 267/727\\
+      Symmetric/Asymmetric & $K$ & 148/1000 & 38/855 & 10/26 & 199/484 & 331/1000 & 136/727\\ 
+      Isotropic/Multimodal& $Q$ & 0/0 & 0/145 & 23/974  &259/516& 0/0 & 201/273\\ 
+      Multimodal/Unimodal & $\wt{U}$ & 945/1000 & 46/805 & 0/23   &   151/484 & 942/1000  & 8/727\\
+      \hline
+$H_0/H_1,$ SNR=$1/10$ & & & & & & & \\
+\hline
+     Non-Preference/Anisotropy & $U$ & 1000 & 239 & 34 & 441 & 998 & 457\\ 
+Circular/Ellipsoidal & $V$ & 225/1000  & 214/239 & 0/34 & 192/441 & 194/998 & 58/457\\
+     Symmetric/Asymmetric & $K$ & 89/1000   & 1/239 & 10/34 & 99/441 & 139/998 & 74/457\\ 
+      Isotropic/Multimodal& $Q$ & 0/0 & 449/761 & 20/966  & 20/539&1/2  &18/543 \\ 
+      Multimodal/Unimodal & $\wt{U}$ & 239/1000 & 7/239 & 0/34 & 27/441 & 174/998  & 4/457\\
+      \hline
+$H_0/H_1,$ SNR=$1/2$ & & & & & & & \\
+\hline
+      Non-Preference/Anisotropy & $U$ & 45 & 21 & 25 & 31 & 37 & 24\\ 
+Circular/Ellipsoidal & $V$ & 2/45 & 2/21 & 5/25 & 6/31 & 4/37 & 4/24\\
+        Symmetric/Asymmetric & $K$ & 5/45 & 4/21 & 2/25 & 1/31 & 4/37 & 3/24\\ 
+      Isotropic/Multimodal& $Q$ & 1/955 & 3/979 & 2/975  &2/969& 4/963 &5/976 \\ 
+      Multimodal/Unimodal & $\wt{U}$ & 2/45 & 0/21 & 1/25 &0/31  & 5/37  & 1/24\\
+      \hline
+      \hline
+    \end{tabular}
+  \label{testing}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Results, provided in Table~\ref{testing}, are consistent with varying
+degrees of the SNR.  The prolate diffusion $\cA_1$ is clearly
+detectable, down to an $\text{SNR}=1/10$, despite using non-parametric
+methods via the $U$-statistic.  Detecting the scalene diffusion
+depends on the SNR, while the isotropic diffusion is clearly
+distinguishable from its alternatives under the full range of SNR
+using the $U$-statistics.  The multi-tensor diffusion $\cA_4$ is
+difficult to classify using the $U$-statistics and its correct
+classification depends on how well the location of the dominant peak
+is estimated.  If the dominant peak is well determined then the
+$U$-statistic clearly recognizes the density as anisotropic, if not
+the $q$-space measurements are characterized as non-Gaussian instead
+of multimodal.  If one was only concerned with empirically separating
+prolate diffusion~PDFs from multimodal diffusion~PDFs, rather than
+performing a hypothesis test, then this would be relatively
+straightforward; e.g., retaining 95\% of the unimodal Gaussian with
+the $\text{SNR}=1/20$ leads to rejecting all but 11\% of the
+multi-tensor realizations (see the $\tilde{U}$-statistic).  Since we
+are interested in detecting ellipsoidal decay around a single
+direction, the variation over the dominant great circle will be large
+for anisotropic voxels with ellipsoidal decay as well as for
+multi-modal diffusion~PDFs.  At an $\text{SNR}=1/20$ the
+$\wt{U}$-statistic provides complimentary information by strongly
+separating the prolate (94\% rejected) from the multi-tensor model
+(15.1\% rejected, near the nominal value of 10\%), but fails to
+distinguish between the scalene and the multi-tensor models
+(Table~\ref{testing}).  The highly scalene density is instead seen as
+multimodal, and such structure may be approximated using two tensors,
+especially when sparsely sampled on the sphere.
+
+The two distributions with constant behavior on the dominant great
+circle are not diagnosed with asymmetric decay, while the null
+hypothesis is rejected for $\cA_2$ in a substantial number of cases in
+Table~\ref{testing}.  The misdiagnosed multimodal diffusion~PDF
+$\cA_4$ also has the null hypothesis of multimodality rejected for a
+substantial number of cases.  This is to be expected since the
+observed diffusion will experience considerable variation over the
+dominant great circle, consistent with observing a diffusion process
+with a single dominant direction and ellipsoidal decay.
+
+We fail to reject the null hypothesis of symmetry for the two
+diffusion processes that are symmetric ($\cA_1$ and $\cA_2$) in most
+cases, while we reject a larger proportion for $\cA_5$.  There is
+unfortunately a lack of power in this test which is due to sampling
+60~directions; limiting the performance of the test statistic.  For
+$\cA_6$ and keeping the $\text{SNR}=1/20$, we reject the null
+hypothesis 38.9\% with 60~directions.  For $\cA_5$ we reject the null
+51.6\% of the time using 245~directions at $\text{SNR}=1/20$ -- a
+clear increase from 35.2\% with 60~directions.  Increasing the SNR
+also increases our power to detect such asymmetry, as shown in
+Table~\ref{testing}.  The power of the test improves as the number of
+directions increase or the amount of asymmetry (better characterised
+with better spherical sampling) increases.
+
+\section{Analysis of Clinical Data}
+
+HARDI data were acquired from one normal subject (30 year old,
+male~Caucasian) in a Siemens TIM Trio 3.0~Tesla scanner using a
+32-channel head coil.  
+% Measurement of 64 gradient directions ($b=1600~\text{s/mm}^2$) and
+% one T2 image ($b=0$) were obtained using a twice refocused diffusion
+% preparation.  The slice prescription was: 64~slices acquired in the
+% AC-PC plane, $\text{TE}=95~\text{ms}$,
+% $\text{FoV}=240\times240~\text{mm}$, $\text{base
+% resolution}=128\times128$, slice thickness of $1.9~\text{mm}$ and
+% cardiac gating was applied.
+Regions of interest (ROIs) from two slices of the clinical data are
+provided to illustrate the statistical summaries developed in this
+paper.  Slice~1 contains an ROI that is dominated by single-fiber
+voxels containing structures such as the corpus callosum and cingulum.
+Figure~\ref{figure-slice1}(a) shows the voxels using the common
+color-coding convention (i.e., RGB for the $(x,y,z)$ coordinates)
+weighted by the estimated fractional anisotropy (FA) at each voxel.
+The FA for the ROI is reproduced in Figure~\ref{figure-slice1}(b)
+along with the $p$-values for the anisotropy and ellipsoidality
+statistics in Figures~\ref{figure-slice1}(c)
+and~\ref{figure-slice1}(d), respectively.  We select a very liberal
+threshold ($p=0.15$) for the purpose of exploratory data analysis, not
+confirmatory data analysis.  We observe very few voxels that indicate
+asymmetry at specific voxels, while the ellipsoidality $p$-values
+indicate quite a few voxels that exhibit ellipsoidal structure.  These
+voxels are located at the borders of strongly directional structures
+such as the corpus collosum and cingulum, and reaffirms the results
+obtained in the simulation studies.  Additional information about the
+structure is obtained by plotting the test statistic for unimodality
+and the $p$-values from the multi-modality test statistic in
+Figures~\ref{figure-slice1}(e) and~\ref{figure-slice1}(f),
+respectively.  The corpus callosum, and to a lesser extent the
+cingulum, produce large values in the unimodality test statistic as to
+be expected from those structures.  Multimodality is detected in
+voxels with reduced FA and/or on the edges of prominant white-matter
+structures.  The pattern of multimodal voxels identified in
+Figure~\ref{figure-slice1}(f) in general do not appear to overlap with
+those voxels that were identified using the ellipsoidality statistic,
+providing evidence that this methodology is detecting distinct
+features in the white-matter microstructure.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htbp]
+    \begin{minipage}[]{0.45\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{slice1_slice+rect.eps}
+    \end{minipage}
+    \begin{minipage}[]{\textwidth}
+      \centering      
+      \includegraphics*[width=.85\textwidth]{slice1_statistics.eps}
+    \end{minipage}
+  \caption{Axial slice from clinical HARDI acquisition.  Color-coded
+    fractional anisotropy (FA) for the whole slice is displayed in
+    {\bf (a)} along with the boundaries for the ROI.  For the
+    zoomed-in ROI: color-coded FA {\bf (b)}, anisotropy $p$-values
+    {\bf (c)}, ellipsoidality $p$-values {\bf (d)}, unimodality test
+    statistic {\bf (e)} and multimodality $p$-values {\bf (f)}.
+  \label{figure-slice1}}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The ROI selected in slice~2 captures more complicated interactions
+between white-matter structures such as the corticopontine tract,
+anterior thalamic radiation and corpus callosum;
+Figure~\ref{figure-slice2}(a).  The FA for the ROI is reproduced in
+Figure~\ref{figure-slice2}(b) along with the $p$-values for the
+anisotropy and ellipsoidality statistics in
+Figures~\ref{figure-slice2}(c) and~\ref{figure-slice2}(d),
+respectively.  Asymmetry is difficult to detect in these data, but
+ellipsoidality is quite apparent along the boundaries of the corpus
+callosum and around the projections into grey matter.  The test
+statistic for unimodality in Figure~\ref{figure-slice2}(e) complements
+the ellipsoidality results quite well, picking out dominant unimodal
+structures (e.g., the voxels dominated by the corpus callosum and to a
+lesser degree the cingulum) around which the ellipsoidality measure is
+finding more complex voxels.  Finally, the test statistic for
+multimodality in Figure~\ref{figure-slice2}(f) clearly identifies
+voxels where the three dominant white-matter structures in this ROI
+converge, and all other statistics fail to detect any specific
+structure.  The statistical summaries developed here provide
+complementary information about white-matter microstructure in
+clinically acquired data.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htbp]
+    \begin{minipage}[]{0.45\textwidth}
+      \centering
+      \includegraphics*[width=\textwidth]{slice2_slice+rect.eps}
+    \end{minipage}
+    \begin{minipage}[]{\textwidth}
+      \centering      
+      \includegraphics*[width=.85\textwidth]{slice2_statistics+points.eps}
+    \end{minipage}
+  \caption{Axial slice from clinical HARDI acquisition.  Color-coded
+    fractional anisotropy (FA) for the whole slice is displayed in
+    {\bf (a)} along with the boundaries for the ROI.  For the
+    zoomed-in ROI: color-coded FA {\bf (b)}, anisotropy $p$-values
+    {\bf (c)}, ellipsoidality $p$-values {\bf (d)}, unimodality test
+    statistic {\bf (e)} and multimodality $p$-values {\bf (f)}.
+  \label{figure-slice2}}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We focus on a few specific voxels in Figure~\ref{figure-slice2} using
+the Funk Radon Transform without smoothing.  As recommended by Tuch,
+we have taken the standardized raw FRT to the power five when plotting
+in order to emphasize structure.  Figures~\ref{fig:indvoxel}(a)
+and~\ref{fig:indvoxel}(b) show the two most anterior voxels that are
+plotted in \ref{figure-slice2} (indicated by yellow dots).  This tract
+appears to be ``bending'' as we move from anterior to posterior,
+indicated by the shift in direction of the dominant direction seen in
+the FRTs.  The statistics quantify this behaviour; the $p$-values for
+asymmetry are 0.14 and 0.02 respectively (indicating that the
+posterior-most voxel is bending more).  The unimodality of the
+anterior voxel is seen from the large unimodality statistic in
+Figure~\ref{figure-slice2}(e).  We then look at a voxel in a more
+heterogeneous area, where the major fiber tracts appear to merge: the
+statistics here indicate multi-modality dominates as is seen in
+\ref{fig:indvoxel}(c) and backed up by
+Figures~\ref{figure-slice2}(c)-(f).  We observe the most central voxel
+has summary statistics that are ellipsoidal but not asymmetric,
+clearly observed in Figure~\ref{fig:indvoxel}(d).  The clinical data
+have provided evidence at a voxel level, backed up by statistical
+hypothesis testing and observed in the FRT visualizations, that
+interesting white-matter microstructure may be detected and
+characterized using the methodology proposed here.
+
+\section{Discussion}
+
+We have introduced a new set of tools for characterizing orientational
+structure from HARDI measurements directly in $q$-space.  This
+methodology is unique when compared with existing methods that rely on
+reconstructing the spatial information from $q$-space by different
+methods of marginalizing the spatial distribution; i.e. from
+calculating a spatial ODF.  An ODF has a different meaning if
+calculated directly from a Gaussian model, from the non-parametric FRT
+(average orientational distribution over all radii without using the
+correct volume increment for a marginal PDF) or using PAS-MRI
+(orientational distribution associated with a {\em single spatial
+  radius} or scale).  In general the magnitude associated with an ODF
+is not comparable between methods, neither is the distribution of
+noise artifacts.  Our methodology is technically linked to the FRT,
+but unlike the FRT we are not constrained to scalar measures
+calculated from averages on great circles in $q$-space, and our
+methods do not depend on appropriate marginalization to produce
+summaries.  The interpretation of our statistical summaries is
+straightforward but we note that improvements in data acquisition,
+such as increased sampling of directions and the addition of several
+shells, will improve estimation of features from the diffusion~PDF
+even further \citep{Wisco07}.
+
+Most established methods for characterizing features in white-matter
+microstructure have focused on the problem of determining the number
+and orientation of peaks in the diffusion~PDF.  None of the
+``magnitude'' information of these solutions is comparable or indeed
+interpretable apart from DTI based models.  \citet{Savadjiev2006} have
+already commented on the unsuitability of such magnitudes as
+quantitative measures.  The problem with this fact, and the non-linear
+transformation often employed for representing $q$-ball estimates, is
+that the coherent treatment of noise artifacts becomes much more
+difficult.  The advantage of our theoretical framework developed for
+summary statistics is that we may perform hypothesis tests using
+critical values that are {\em not} functions of unknown parameters.
+We stress that simulation studies for features of diffusion~PDFs are
+in general misleading unless the proposed summaries are true
+statistics; i.e., their distributions under null hypotheses are
+parameter independent.  For example, critical values determined from
+Monte Carlo studies for a given diffusion~PDF will not (in general) be
+applicable to other diffusion processes than the simulated process
+since these critical values are parameter dependent.  This can be
+compared to calculating a simple mean rather than a $t$-statistic.  If
+we try to elicit the distribution of the sample mean using simulations
+at fixed variances, then these critical values are only useful for
+variables with the {\em same} variance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htbp]
+    \begin{minipage}[]{0.20\textwidth}
+      \centering
+      (a)
+      \includegraphics*[width=\textwidth]{3257new.ps}
+    \end{minipage}
+    \begin{minipage}[]{0.20\textwidth}
+      \centering
+      (b)
+      \includegraphics*[width=\textwidth]{3457new.ps}
+    \end{minipage}
+    \begin{minipage}[]{0.22\textwidth}
+      \centering
+      (c)
+      \includegraphics*[width=\textwidth]{3659.ps}
+    \end{minipage}
+    \begin{minipage}[]{0.22\textwidth}
+      \centering
+      (d)
+      \includegraphics*[width=\textwidth]{3763.ps}
+    \end{minipage}
+  \caption{The raw FRT of a set of chosen voxels indicated by yellow
+    dots in Figure \ref{figure-slice2}. These are plotted in order of
+    decreasing $x_2$-coordinate (or going from the top of the image to
+    the bottom).}
+  \label{fig:indvoxel}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Various non-parametric procedures have been proposed to summarize
+HARDI data using more than its estimated orientation; e.g., by
+investigating the model order of spherical harmonic decomposition
+\citep{fra:characterization,ale-bar-arr:detection,Descoteaux:2006}.
+\citet{chen2005} modeled the ADC using a product of a truncated
+spherical harmonics series.  In general an {\em infinite} order of
+spherical harmonic terms should be taken to approximate an arbitrary
+Gaussian mixture, but they argued that a crossing fiber should be
+sufficiently reproduced by such a truncated representation, and
+expressed its complexity using the normalized terms in the spherical
+expansion.  Other representations include expressing the ADC in terms
+of higher order tensors and spherical harmonics
+\citep{Descoteaux:2006}, or just via a spherical harmonic
+representation \citep{fra:characterization}.
+%, a method similar to \citep{chen2005}.  
+Second-order terms in a spherical harmonic decomposition contribute to
+describing a single-tensor fiber, but in general more complicated
+structure needs to be described in terms of corresponding PDF spatial
+properties directly, rather than the fourth- and higher-order terms,
+which give too much freedom in structure to be a precise tool for the
+description of fine spatial features. Other measures of the entropy of
+the PDF have been proposed \citep{rao2004}.
+
+Rather than solely focusing only on the number of peaks in the
+diffusion~PDF, we have characterized white-matter microstructure
+through the diffusion~PDF directly in $q$-space without parametric
+assumptions or imposing smoothness constraints.  Since we use a
+variable bandwidth estimator rather than employing a fixed bandwidth
+smoother \citep{OlhedeWhitcher}.  The tissue microstructure is
+identified as variation in summary statistics that deviate from a
+simple, symmetric model for the diffusion~PDF and is characterized in
+behavior relative to the identified dominant great circle in
+$q$-space.  Ellipsoidal diffusion~PDFs \eqref{ellipsoid} are simple in
+structure and imply the existence of a dominant great circle.  The
+deformed ellipsoid class is less stringent in structure, and permits
+asymmetric decay in minor axes -- for example, \eqref{deformedell} --
+while still conforming to the existence of a dominant great circle.
+We describe the precursor to forking by either a deformed ellipse or a
+mixture model, to capture further asymmetric structure.  We
+differentiate between different white-matter microstructure by
+examining variation over that great circle, or variation perpendicular
+to the great circle.  Allowing for a greater variety of structure in a
+unidirectional diffusion~PDF implies that the power to detect
+multi-modal diffusion is necessarily reduced compared to using a
+parametric multi-model model, if the proposed parametric model is
+correct.  We characterized single peak densities by additional
+summaries, such as the anisotropy statistic, the decay ratio statistic
+and the asymmetry statistic.  The synthetic forking fiber in
+Fig.~\ref{fig:evolution} shows an evolution of such measures as we go
+between a single fiber, and a forking fiber.  The synthetic crossing
+fiber in Fig.~\ref{fig:evolution} does not exhibit the same
+asymmetries.
+
+If one enforces a strict Gaussian (single diffusion tensor) model,
+then all variation away from symmetry around the dominant direction
+will be interpreted as evidence for a multi-modal diffusion
+\citep{par-ale:pico,hos-wil-ans:inference,Behrens2007}.
+Modelling using non-Gaussian PDFs allows us to fit asymmetric
+structure, rather than just the model indicating a lack of fit of a
+single peak. However, using such models leads to a loss of power if a
+Gaussian mixture model is appropriate.  Caution should be exercised in
+order to protect against over-interpreting fitted models.  With a
+model that only includes a family of mixtures of Gaussian diffusion
+processes, one is constrained to estimate a Gaussian mixture, however
+for a small number of sampled directions there are inevitably issues
+with identifiability.  The same realizations may in some cases
+equivalently be derived from a unimodal diffusion~PDF with asymmetric
+structure or a Gaussian mixture model.  If one chooses to select one
+model rather than the other (i.e., choose an asymmetric and scalene
+PDF or multiple-tensor), then this decision is based more on the
+underlying assumptions of the model rather than on the evidence
+directly provided by the observed data.  A large (possibly infinite)
+collection of Gaussian diffusion processes may be used to approximate
+an observed set of measurements to an arbitrary accuracy, but one has
+to consider the possibility that the information being fitted is noise
+instead of signal.  We believe the rule of parsimony should be
+exercised at all times, and that summaries of orientational structure
+can be estimated and interpreted in $q$-space rather than using
+(potentially) over-parameterized models.
+
+One potential application of the these $q$-space summaries would be to
+improve fiber-tracking algorithms, similar to the use of the Hessian
+of a local peak to improve probabalistic tractography models
+\citep{Seunarine}.  These summaries would be used in addition to
+directions, to allow more careful tracking through forking and fanning
+structures ({\em cf} Figure~\ref{figure-slice2}), and distinguish
+local structure more consistently with crossing from such features
+using both the asymmetry and ellipsoidality measures.
+
+\appendix
+
+\section{Distributions for Test Statistics}
+%\label{DistTest}
+
+\subsection{The $T$ Statistic}
+\label{disttm}
+
+By performing a Taylor expansion we have 
+\begin{equation}
+  T \stackrel{d\,|\,H_0}{=} \frac{\tilde\sigma}{\cA} \left[m^{-1/2}(\vare_1-\vare_2) + (\vare_4-\vare_3)\right] + O\left(\tilde\sigma^2\right),
+\end{equation}
+where $\vare_1$ and $\vare_3$ ($\vare_2$ and $\vare_4$) are
+distributed as the maxima (the minima) of $m$ Gaussian random
+variables.  Assume for a given acquisition scheme that the great
+circle passes near $m$ independent observations.  We find that
+\begin{equation}
+  \max_k\{\wh\cA\left(\hat{\q}_k\right)\} \approx \cA + \tilde\sigma
+\vare_3 \quad \text{and} \quad  \min_k\{\wh\cA\left(\hat{\q}_{k}\right)\} \approx \cA + \tilde\sigma\vare_4,
+\end{equation}
+where $\vare_3$ and $\vare_4$ are random variables.  Then the
+distribution of $\vare_3$ may be approximated as the maximum of $m$
+Gaussian random variables, and likewise with $\vare_4$ as the minimum.
+As we linearly interpolate the value the extremum will, in the worst
+case, behave like the extremum of the $m$ variables.  Thus
+\begin{equation}\label{e:Taylor2}
+  \max_j\{{\wh\cA}\left(\alpha_{j}\right)\} = \cA +
+  \frac{\tilde\sigma}{\sqrt{m}} \, \vare_1 \quad \text{and} \quad
+  \min_j\{{\wh\cA}\left(\alpha_{j}\right)\} = \cA +
+  \frac{\tilde\sigma}{\sqrt{m}} \, \vare_2,
+\end{equation}
+where $\vare_1$ and $\vare_3$ ($\vare_2$ and $\vare_4$) are maximum
+(minimum) order statistics over $m$ Gaussian random variables.  Note
+that maximum and minimum order statistics \citep{Walsh1970} can be
+approximated as independent even for small values of $n$, and that
+extrema in the perpendicular great circles will be under $H_0$
+independent of extrema over the dominant great circle.
+
+Assume that $0<\tilde\sigma<\sigma$ is the variance at the observation
+points after constructing the multiresolution-based estimator
+$\wh\cA(\tilde\q_j)$ and an estimator of $\sigma$ is provided by the
+multiresolution algorithm, and will be denoted $\wh{\sigma}^{\ast}$
+\citep{OlhedeWhitcher}.  We must now estimate $\cA$ and
+$\tilde\sigma$, as indicated in \eqref{e:estunderh0}.  We have
+approximated the interpolated observations as Gaussian random
+variables, where their variance will vary from observation to
+observation due to the estimation scheme and the linear interpolation.
+To be able to determine a suitable threshold we must determine the
+distribution of the test statistic $U$
+\begin{equation}
+  P\left(U\le{u}\right) \overset{d|H_0}{=} P\left(m^{-1/2}
+  (\vare_1-\vare_2) + (\vare_4-\vare_3) \le u\right) +
+  O\left(\frac{\tilde\sigma}{\cA}\right).
+\end{equation}
+Thus, the PDF of $U$ is approximately given by
+\begin{eqnarray}\label{distributiondir}
+  f_1(e) &=& f_3(e) = f_2(-e) = f_4(-e) = m [\Phi(e)]^{m-1} \phi(e)
+  \nonumber\\
+  f_U(u) &=& m f_1\left(e\sqrt{m}\right) \ast f_1\left(e
+  \sqrt{m}\right) \ast f_1(e) \ast f_1(e)\\ 
+  F_U(u) &=& \int_{-\infty}^{u} f_U(v) \, dv. \nonumber
+\end{eqnarray}
+
+Under the alternative hypothesis that the ``the density is unimodal
+and prolate,'' the expected diffusion on the dominant great circle
+taking the value $\cA$ and on the perpendicular point taking the value
+$\cA_\text{min}$, we have with $\tilde{\sigma}$ the smoothed variance
+and $\breve{\sigma}$ the interpolated variance
+\begin{eqnarray}
+  T &=& \left[\frac{\max_j\{\wh{\cA}_\perp\left(\alpha_j \right)\}}
+    {\min_j\{\wh{\cA}_\perp\left(\alpha_{j}\right)\}}\right]
+  \left[\frac{\max_k\{\wh{\cA}\left(\hat\q_{k}\right)\}}
+    {\min_k\{\wh{\cA}\left(\hat\q_{k}\right)\}}\right]^{-1} - 1 \nonumber\\
+  &\overset{d\,|\,H_1}{=}&
+  \left[\frac{\cA+\breve{\sigma}\eta_1}{\cA_\text{min}+\breve{\sigma}\eta_2}\right]
+  \left[\frac{\cA+\tilde\sigma\eta_3}{\cA+\tilde\sigma\eta_4}\right]^{-1} - 1
+  \nonumber\\
+  &=& \frac{\cA}{\cA_\text{min}} - 1 + \frac{1}{\cA_\text{min}}
+  \left[\breve{\sigma}\eta_1-\tilde{\sigma}\eta_3+\tilde{\sigma}
+  \eta_4 - \frac{\breve{\sigma}\cA}{\cA_\text{min}}\eta_2\right] +
+  \cdots.
+\end{eqnarray}
+$\eta_3$ and $\eta_4$ are here maximum and minimum order statistics,
+respectively, and $\eta_1$ and $\eta_2$ are Gaussian random variables.
+We have good estimators for $\breve\sigma$, $\tilde\sigma$ and $\cA$
+distinct from those used in $T$, but we are lacking a good independent
+estimator for $\cA/\cA_\text{min}$.  This means we cannot start from a
+null hypothesis of prolate and unimodal.  Let us consider the same
+object under multi-modality, with $\cA_{\perp\max}$ and
+$\cA_{\perp\min}$ the maximum or minimum of the the perpendicular
+great circle:
+\begin{eqnarray}
+  T &\overset{d\,|\,H_0'}{=}&
+  \left[\frac{\cA_{\perp \max}+\breve{\sigma}\eta_5}{\cA_{\perp \min}+\breve{\sigma}\eta_6}\right]
+  \left[\frac{\cA_\text{max}+\breve\sigma\eta_7}{\cA_\text{min}+\breve\sigma\eta_8}\right]^{-1} - 1\\
+  &=& \breve{\sigma} \left(\frac{\eta_8}{\cA_{\min}} +
+    \frac{\eta_5}{\cA_{\perp\max}} - \frac{\eta_6}{\cA_{\perp\min}}
+    - \frac{\eta_7}{\cA_\text{max}}\right) \nonumber
+  \cdots,
+\end{eqnarray}
+where $\{\eta_i\}$ is a set of Gaussian variables.  The distribution
+of $T$, under the assumption that
+\begin{equation}
+  \frac{\cA_{\perp\max}\cA_\text{min}}{\cA_{\perp\min}\cA_\text{max}}
+  \approx 1,
+\end{equation}
+which we shall refer to as $H_0'$, is therefore given approximately by
+the above expression.  The test statistic $\wt{U}$ is calculated under
+a $H_0'$ of multimodality, thus
+$(\wt{\cA}_{\max}\cA_\text{min})/(\wt{\cA}_{\min}\cA_\text{max})\le c$
+for some specified constant such as $c=2$. Then
+\begin{eqnarray}
+  \tilde{T}&\overset{d\,|\,H_0'}{=}&[c-1] +
+  \frac{\breve{\sigma}}{\cA_{\min}}\left(c\wt{\eta}_8 +
+  \frac{c\cA_{\min}}{\wt{\cA}_{ \max}}\wt{\eta}_5-\frac{c
+    \cA_{\min}}{\wt{\cA}_{ \min}} \wt{\eta}_6- \frac{c
+    \cA_{\min}}{\cA_\text{max}}\wt{\eta}_7\right)+\cdots,
+\end{eqnarray}
+where $\{\wt{\eta}_l\}_{l=5}^8$ will be Gaussian random variables.
+The alternative hypothesis will have $(\wt{\cA}_{\max}\cA_\text{min})
+/ (\wt{\cA}_{\min}\cA_\text{max}) > c$, and so this is a one-sided
+test.  We assume that $\cA_{\min}\approx\wt{\cA}_{\min}$ and that
+$c\cA_{\min}/\wt{\cA}_{\max}\approx{c\cA_{\min}/\cA_\text{max}}
+\approx 1$ (these could be replaced by inserting estimators, and most
+frequently correspond to conservative choices) to produce
+\begin{equation}
+  \wt{T}-[c-1] \overset{d\,|\,H_0'}{=} N\left(0,
+  \frac{\breve{\sigma}^2}{\cA_{\min}^2} \left(2c^2 + 2\right)\right) +
+  \cdots.
+\end{equation}
+We estimate $\cA_{\min}$ by
+$\wh{\cA}_{\min}=\wh{\cA}(\wh{\bm{\upsilon}}_1)$ to get $\tilde{U}$,
+and replace $\breve{\sigma}$ by the (conservative) estimate of
+$\wh{\sigma}_{\cA}$.
+
+\subsection{The $X$ Statistic}
+\label{threshxi}
+
+Under a null hypothesis of isotropy we find that 
+\begin{equation}
+  X-1 \overset{d|H_0}{=} \frac{\tilde{\sigma}\eta_9 -
+    \breve{\sigma}\eta_{10}}{\cA\log\cA} +
+  O\left(\tilde{\sigma}^2\right),
+\end{equation}
+where $\eta_9$ is the maximum order statistic and $\eta_{10}$ may be
+approximated as a Gaussian random variable.  We can approximate the
+density of $Q$ via
+\begin{equation}
+  f_{Q|H_0}(q|H_0) = \rho^{-1/2}\phi\left(\frac{q}{\sqrt{\rho}}\right)
+  \ast \left[m \Phi^{m-1}\left(-\frac{q}{\rho}\right) \rho^{-1}
+    \phi\left(-\frac{q}{\rho}\right)\right],
+\end{equation}
+for $-\infty<q<\infty$, where $\ast$ denotes the convolution operator,
+$\Phi(\cdot)$ and $\phi(\cdot)$ are the standard Gaussian CDF and PDF,
+respectively.
+
+\subsection{The $Z$ Statistic}
+\label{threshzeta}
+
+To derive the $Z$ statistic we note that
+with $\varepsilon_5$ an aggregation of a maximum over $m$ Gaussian
+random variables, and an independent Gaussian
+observation, and $\varepsilon_6$ is a Gaussian random variable
+\begin{eqnarray}
+  Z &=& \frac{\log\cA\left(\gamma\right) +
+    (\tilde\sigma\vare_5)^{-1}\cA(\gamma)}{\log\cA(\iota) +
+    (\breve\sigma\vare_6)^{-1}\cA(\iota)}\\
+  &=& \frac{\log\cA(\gamma)}{\log\cA(\iota)} +
+  \frac{\tilde\sigma\vare_{5}}{\cA(\gamma)\log\cA(\iota)} -
+  \frac{\breve\sigma\vare_{6}\log\cA(\gamma)}{\cA(\iota)\log^2\cA(\iota)},
+\end{eqnarray}
+where $\gamma=\q_{k_\text{max}+M}$, $\iota=\q_{k_\text{max}+M+N/4}$
+and $M=N/(2m)$.  Under the null $\cA(\gamma)=\cA(\iota)$ and so
+\begin{eqnarray}
+  Z &\overset{d\,|\,H_0}{=}& 1 +
+    \frac{\tilde{\sigma}\vare_{5}}{\cA(\iota)\log\cA(\iota)} -
+    \frac{\breve{\sigma}\vare_{6}}{\cA(\iota)\log\cA(\iota)}\\
+  V &=& \frac{(Z-1)\overline{\cA}_N\log\overline{\cA}_N}{\hat\sigma_2} 
+    = \vare_5 - \rho^{-1/2}\vare_6 = \vare_7,
+\end{eqnarray}
+where $\vare_{5}$ and $\vare_6$ are  due to
+properties of the interpolation.  The random variables $\vare_5$ and
+$\vare_6$ may be approximated as independent.  Note that the PDF of
+$\vare_7$ is approximated by the following density
+\begin{equation}
+  F_{\vare_7}(e) = P(\epsilon_7\le e), \quad
+  g(e) = \frac{25m}{2\sqrt{2}} \left[\Phi^{m-1}\left(5e'\right)
+  \phi\left(5e'\right) \ast
+  \phi\left(\frac{5}{2\sqrt{2}}e'\right)\right](e),
+\end{equation}
+and $f_{\vare_7}(e)=(g{\ast}g)(e)$.  Depending on the value of $m'$ we
+find that the approximation performs well.  
+% The reason why we do not use the interpolated variance for the
+% convolved Gaussian is that the sum is equivalent to averaging over
+% three {\em independent} observations with an appropriate variance.
+
+\subsection{The $K$ Statistic}
+\label{threshkappa}
+
+Under the null hypothesis $K$ will be approximately distributed as the
+absolute value of a Gaussian random variable with mean zero and
+variance given by $\var\{K\}\approx4(1.35)^2m^{-1}\var\{P_k\}$, where
+the factor multiplying the variance of $P_k$ is chosen to reflect the
+degrees of freedom of the sampled sphere.  We note that the variance
+of $P_k$ is given by approximated by
+\begin{equation}
+  \var\left\{P_k\right\} \approx \frac{32\tilde\sigma^2}
+    {m\left[\sum_{j=1}^N{\cA}_{\perp}\left(\alpha_j\right)/N\right]^2}
+    \Rightarrow
+    \var\left\{K\right\}=\frac{2^7\tilde\sigma^2(1.35)^2}
+    {m^2\left[\sum_{j=1}^N{\cA}_{\perp}\left(\alpha_j\right)/N\right]^2}.
+\end{equation}
+The normalized statistic is thus defined by
+\begin{equation}
+  R = \frac{mK\left[\sum_{j=1}^N\wh{\cA}_{\perp}\left(\alpha_j\right)/N\right]}{2^{7/2}(1.35)\hat\sigma_2} = \frac{R_2}{2^{3/2}(1.35)} \sim 2\phi(r),\quad r>0.
+\end{equation}
+
+\bibliographystyle{imsart-nameyear}
+\bibliography{brandon}
+
+\end{document}

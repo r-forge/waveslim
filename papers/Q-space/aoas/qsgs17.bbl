@@ -1,0 +1,451 @@
+\begin{thebibliography}{33}
+
+\bibitem[\protect\citeauthoryear{Abramowitz and Stegun}{1972}]{abra}
+\begin{bbook}[author]
+\bauthor{\bsnm{Abramowitz},~\bfnm{M.}\binits{M.}} \AND
+  \bauthor{\bsnm{Stegun},~\bfnm{I.~A.}\binits{I.~A.}}
+(\byear{1972}).
+\btitle{Handbook of Mathematical Functions, 10th ed}.
+\bpublisher{NBS}.
+\end{bbook}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Alexander}{2005}]{Alexander2005}
+\begin{barticle}[author]
+\bauthor{\bsnm{Alexander},~\bfnm{D.~C.}\binits{D.~C.}}
+(\byear{2005}).
+\btitle{Multiple-fibre reconstruction algorithms for diffusion {MRI}}.
+\bjournal{Annals of the New York Academy of Sciences}
+\bvolume{1046}
+\bpages{113--133}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Alexander, Barker and
+  Arridge}{2002}]{ale-bar-arr:detection}
+\begin{barticle}[author]
+\bauthor{\bsnm{Alexander},~\bfnm{D~C}\binits{D.~C.}},
+  \bauthor{\bsnm{Barker},~\bfnm{G~J}\binits{G.~J.}} \AND
+  \bauthor{\bsnm{Arridge},~\bfnm{S~R}\binits{S.~R.}}
+(\byear{2002}).
+\btitle{Detection and modeling of non-{Gaussian} apparent diffusion coefficient
+  profiles in human brain data}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{48}
+\bpages{331--340}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Basser and Pierpaoli}{1996}]{bas:FA}
+\begin{barticle}[author]
+\bauthor{\bsnm{Basser},~\bfnm{P.~J.}\binits{P.~J.}} \AND
+  \bauthor{\bsnm{Pierpaoli},~\bfnm{C.}\binits{C.}}
+(\byear{1996}).
+\btitle{Microstructural and physiological features of tissues elucidated by
+  quantitative-diffusion-tensor {MRI}}.
+\bjournal{J. of Magnetic Resonance B}
+\bvolume{111}
+\bpages{209--219}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Behrens {\it et~al.}}{2007}]{Behrens2007}
+\begin{barticle}[author]
+\bauthor{\bsnm{Behrens},~\bfnm{T.~E.~J.}\binits{T.~E.~J.}},
+  \bauthor{\bsnm{Johansen-Berg},~\bfnm{H.}\binits{H.}},
+  \bauthor{\bsnm{Jbabdi},~\bfnm{S.}\binits{S.}},
+  \bauthor{\bsnm{Rushworth},~\bfnm{M.~F.~S.}\binits{M.~F.~S.}} \AND
+  \bauthor{\bsnm{Woolrich},~\bfnm{M.~W.}\binits{M.~W.}}
+(\byear{2007}).
+\btitle{Probabilistic tractography with multiple fibre orientations: {W}hat can
+  we gain?}
+\bjournal{NeuroImage}
+\bvolume{34}
+\bpages{1077--1088}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Callaghan}{1993}]{Callaghan}
+\begin{bbook}[author]
+\bauthor{\bsnm{Callaghan},~\bfnm{P.~T.}\binits{P.~T.}}
+(\byear{1993}).
+\btitle{Principles of Nuclear Magnetic Resonance Microscopy}.
+\bpublisher{Clarendon Press}, \baddress{Oxford, UK}.
+\end{bbook}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Chen {\it et~al.}}{2005}]{chen2005}
+\begin{bincollection}[author]
+\bauthor{\bsnm{Chen},~\bfnm{Y.}\binits{Y.}},
+  \bauthor{\bsnm{Guo},~\bfnm{W.}\binits{W.}},
+  \bauthor{\bsnm{Zheng},~\bfnm{Q.}\binits{Q.}},
+  \bauthor{\bsnm{Rao},~\bfnm{M.}\binits{M.}} \AND
+  \bauthor{\bsnm{Liu},~\bfnm{Y.}\binits{Y.}}
+(\byear{2005}).
+\btitle{Apparent Diffusion Coefficient Approximation and Diffusion Anisotropy
+  Characterization in DWI}.
+In \bbooktitle{IPMI 2005}
+\bpages{246--257}.
+\end{bincollection}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Descoteaux {\it
+  et~al.}}{2006}]{Descoteaux:2006}
+\begin{barticle}[author]
+\bauthor{\bsnm{Descoteaux},~\bfnm{M.}\binits{M.}},
+  \bauthor{\bsnm{Angelino},~\bfnm{E.}\binits{E.}},
+  \bauthor{\bsnm{Fitzgibbons},~\bfnm{S.}\binits{S.}} \AND
+  \bauthor{\bsnm{Deriche},~\bfnm{R.}\binits{R.}}
+(\byear{2006}).
+\btitle{Apparent Diffusion Coefficients from High Angular Resolution Diffusion
+  Imaging: Estimation and Applications}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{56}
+\bpages{395--410}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Descoteaux {\it et~al.}}{2007}]{Descoteaux}
+\begin{barticle}[author]
+\bauthor{\bsnm{Descoteaux},~\bfnm{M.}\binits{M.}},
+  \bauthor{\bsnm{Angelino},~\bfnm{E.}\binits{E.}},
+  \bauthor{\bsnm{Fitzgibbons},~\bfnm{S.}\binits{S.}} \AND
+  \bauthor{\bsnm{Deriche},~\bfnm{R.}\binits{R.}}
+(\byear{2007}).
+\btitle{Regularized, Fast and Robust Analytical $Q$-Ball Imaging}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{58}
+\bpages{497--510}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Frank}{2001}]{fra:anisotropy}
+\begin{barticle}[author]
+\bauthor{\bsnm{Frank},~\bfnm{L~R}\binits{L.~R.}}
+(\byear{2001}).
+\btitle{Anisotropy in high angular resolution diffusion-weighted {MRI}}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{45}
+\bpages{935--939}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Frank}{2002}]{fra:characterization}
+\begin{barticle}[author]
+\bauthor{\bsnm{Frank},~\bfnm{L~R}\binits{L.~R.}}
+(\byear{2002}).
+\btitle{Characterization of anisotropy in high angular resolution
+  diffusion-weighted {MRI}}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{47}
+\bpages{1083--1099}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Gradshteyn and Ryzhik}{2000}]{grad}
+\begin{bbook}[author]
+\bauthor{\bsnm{Gradshteyn},~\bfnm{I.~S.}\binits{I.~S.}} \AND
+  \bauthor{\bsnm{Ryzhik},~\bfnm{I.~M.}\binits{I.~M.}}
+(\byear{2000}).
+\btitle{Tables of Integrals, series and Products, 6th ed}.
+\bpublisher{Academic Press}, \baddress{New York, USA}.
+\end{bbook}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Hess {\it et~al.}}{2006}]{Hess}
+\begin{barticle}[author]
+\bauthor{\bsnm{Hess},~\bfnm{C.~P.}\binits{C.~P.}},
+  \bauthor{\bsnm{Mukherjee},~\bfnm{P.}\binits{P.}},
+  \bauthor{\bsnm{Han},~\bfnm{E.~T.}\binits{E.~T.}},
+  \bauthor{\bsnm{Xu},~\bfnm{D.}\binits{D.}} \AND
+  \bauthor{\bsnm{Vigneron},~\bfnm{D.~B.}\binits{D.~B.}}
+(\byear{2006}).
+\btitle{Q-Ball reconstruction of Multimodal Fibre Orientations Using the
+  Spherical Harmonic Basis}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{56}
+\bpages{104--117}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Hosey, Williams and
+  Ansorge}{2005}]{hos-wil-ans:inference}
+\begin{barticle}[author]
+\bauthor{\bsnm{Hosey},~\bfnm{T}\binits{T.}},
+  \bauthor{\bsnm{Williams},~\bfnm{G}\binits{G.}} \AND
+  \bauthor{\bsnm{Ansorge},~\bfnm{R}\binits{R.}}
+(\byear{2005}).
+\btitle{Inference of multiple fiber orientations in high angular resolution
+  diffusing imaging}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{54}
+\bpages{1480--1489}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Jansons and Alexander}{2003}]{Jansons}
+\begin{barticle}[author]
+\bauthor{\bsnm{Jansons},~\bfnm{K.~M.}\binits{K.~M.}} \AND
+  \bauthor{\bsnm{Alexander},~\bfnm{D.~C.}\binits{D.~C.}}
+(\byear{2003}).
+\btitle{Persistent angular structure: {N}ew insights from diffusion magnetic
+  resonance imaging data}.
+\bjournal{Inverse Problems}
+\bvolume{19}
+\bpages{1031--1046}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Jian and Vemuri}{2007}]{Jian2007}
+\begin{barticle}[author]
+\bauthor{\bsnm{Jian},~\bfnm{B.}\binits{B.}} \AND
+  \bauthor{\bsnm{Vemuri},~\bfnm{B.~C.}\binits{B.~C.}}
+(\byear{2007}).
+\btitle{A Unified Computational Framework for Deconvolution to Reconstruct
+  Multiple Fibres From Diffusion Weighted {MRI}}.
+\bjournal{IEEE Trans. on Medical Imaging}
+\bvolume{26}
+\bpages{1464--1471}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Kaden, Kn{\"o}sche and
+  Anwander}{2007}]{Kaden2007}
+\begin{barticle}[author]
+\bauthor{\bsnm{Kaden},~\bfnm{E.}\binits{E.}},
+  \bauthor{\bsnm{Kn{\"o}sche},~\bfnm{T.~R.}\binits{T.~R.}} \AND
+  \bauthor{\bsnm{Anwander},~\bfnm{A.}\binits{A.}}
+(\byear{2007}).
+\btitle{Parametric Spherical Deconvolution: Inferring anatomical connectivity
+  using diffusion MR imaging}.
+\bjournal{NeuroImage}
+\bvolume{37}
+\bpages{474--488}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Khachaturian, Wisco and Tuch}{2007}]{Wisco07}
+\begin{barticle}[author]
+\bauthor{\bsnm{Khachaturian},~\bfnm{M.~H.}\binits{M.~H.}},
+  \bauthor{\bsnm{Wisco},~\bfnm{J.~J.}\binits{J.~J.}} \AND
+  \bauthor{\bsnm{Tuch},~\bfnm{D.~S.}\binits{D.~S.}}
+(\byear{2007}).
+\btitle{Boosting the sampling efficiency of $q$-ball imaging using multiple
+  wavevector fusion}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{57}
+\bpages{289--296}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Mat{\'e}rn}{1960}]{Matern}
+\begin{bincollection}[author]
+\bauthor{\bsnm{Mat{\'e}rn},~\bfnm{B.}\binits{B.}}
+(\byear{1960}).
+\btitle{Spatial Variation}.
+In \bbooktitle{Stochastic Models and Their Application to some problems in
+  forest surveys and other sampling investigations}
+\bpages{39}.
+\bpublisher{Statens Skogsforskningsinstitut}, \baddress{Stockholm, Sweden}.
+\end{bincollection}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Mori and {van
+  Zijl}}{2002}]{mor-zij:fiber-tracking}
+\begin{barticle}[author]
+\bauthor{\bsnm{Mori},~\bfnm{S}\binits{S.}} \AND \bauthor{\bsnm{{van
+  Zijl}},~\bfnm{C~M}\binits{C.~M.}}
+(\byear{2002}).
+\btitle{Fiber tracking: principles and strategies -- a technical review}.
+\bjournal{NMR in Biomedicine}
+\bvolume{15}
+\bpages{468--480}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Olhede and Whitcher}{2008a}]{OlhedeWhitcher}
+\begin{btechreport}[author]
+\bauthor{\bsnm{Olhede},~\bfnm{S.~C.}\binits{S.~C.}} \AND
+  \bauthor{\bsnm{Whitcher},~\bfnm{B.}\binits{B.}}
+(\byear{2008}a).
+\btitle{{HARDI} wavelet and Non-Parametric Estimation}
+\btype{Technical Report},
+\binstitute{University College}, \baddress{London, United Kingdom}.
+\end{btechreport}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Olhede and
+  Whitcher}{2008b}]{OlhedeWhitcherISBI}
+\begin{binproceedings}[author]
+\bauthor{\bsnm{Olhede},~\bfnm{S.~C.}\binits{S.~C.}} \AND
+  \bauthor{\bsnm{Whitcher},~\bfnm{B.}\binits{B.}}
+(\byear{2008}b).
+\btitle{A Statistical Framework to characterise Microstructure in High Angular
+  Resolution Diffusion Imaging}.
+In \bbooktitle{5th IEEE International Symposium on Biomedical Imaging}
+\bpages{899--902}.
+\end{binproceedings}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{{\"O}zarslan, Vemuri and
+  Mareci}{2005}]{Ozarslan2005}
+\begin{barticle}[author]
+\bauthor{\bsnm{{\"O}zarslan},~\bfnm{E.}\binits{E.}},
+  \bauthor{\bsnm{Vemuri},~\bfnm{B.~C.}\binits{B.~C.}} \AND
+  \bauthor{\bsnm{Mareci},~\bfnm{T.~M.}\binits{T.~M.}}
+(\byear{2005}).
+\btitle{Generalized Scalar measures for Diffusion {MRI} Using Trace, Variance
+  and Entropy}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{53}
+\bpages{866--876}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{{\"O}zarslan {\it
+  et~al.}}{2006}]{Ozarslan2006}
+\begin{barticle}[author]
+\bauthor{\bsnm{{\"O}zarslan},~\bfnm{E.}\binits{E.}},
+  \bauthor{\bsnm{Shephard},~\bfnm{T.~M.}\binits{T.~M.}},
+  \bauthor{\bsnm{Vemuri},~\bfnm{B.~C.}\binits{B.~C.}},
+  \bauthor{\bsnm{Blackband},~\bfnm{S.~J.}\binits{S.~J.}} \AND
+  \bauthor{\bsnm{Mareci},~\bfnm{T.~M.}\binits{T.~M.}}
+(\byear{2006}).
+\btitle{Resolution of Complex Tissue Microarchitecture using the diffusion
+  orientation transform}.
+\bjournal{NeuroImage}
+\bvolume{31}
+\bpages{1086--1103}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Parker and Alexander}{2005}]{par-ale:pico}
+\begin{barticle}[author]
+\bauthor{\bsnm{Parker},~\bfnm{G~J~M}\binits{G.~J.~M.}} \AND
+  \bauthor{\bsnm{Alexander},~\bfnm{D~C}\binits{D.~C.}}
+(\byear{2005}).
+\btitle{Probabilistic anatomical connectivity derived from the microscopic
+  persistent angular structure of cerebral tissue}.
+\bjournal{Philosophical Trans. of the Royal Society of London B}
+\bvolume{360}
+\bpages{893--902}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Rao {\it et~al.}}{2004}]{rao2004}
+\begin{barticle}[author]
+\bauthor{\bsnm{Rao},~\bfnm{M.}\binits{M.}},
+  \bauthor{\bsnm{Chen},~\bfnm{Y.}\binits{Y.}},
+  \bauthor{\bsnm{Vemuri},~\bfnm{B.~C.}\binits{B.~C.}} \AND
+  \bauthor{\bsnm{Wang},~\bfnm{F.}\binits{F.}}
+(\byear{2004}).
+\btitle{Cumulative Residual Entropy: A New Measure of information}.
+\bjournal{IEEE Trans. on Information Theory}
+\bvolume{50}
+\bpages{1220--1228}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Savadjiev {\it et~al.}}{2006}]{Savadjiev2006}
+\begin{barticle}[author]
+\bauthor{\bsnm{Savadjiev},~\bfnm{P.}\binits{P.}},
+  \bauthor{\bsnm{Campbell},~\bfnm{J.~S.~W.}\binits{J.~S.~W.}},
+  \bauthor{\bsnm{Pike},~\bfnm{G.~B.}\binits{G.~B.}} \AND
+  \bauthor{\bsnm{Siddiqi},~\bfnm{K.}\binits{K.}}
+(\byear{2006}).
+\btitle{{3D} curve inference for diffusion {MRI} regularization and fibre
+  tractography}.
+\bjournal{Medical Image Analysis}
+\bvolume{10}
+\bpages{799--813}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Seunarine {\it et~al.}}{2007}]{Seunarine}
+\begin{bincollection}[author]
+\bauthor{\bsnm{Seunarine},~\bfnm{K.}\binits{K.}},
+  \bauthor{\bsnm{Cook},~\bfnm{P.~A.}\binits{P.~A.}},
+  \bauthor{\bsnm{Hall},~\bfnm{M.~G.}\binits{M.~G.}},
+  \bauthor{\bsnm{Embleton},~\bfnm{K.~V.}\binits{K.~V.}},
+  \bauthor{\bsnm{Parker},~\bfnm{G.~J.~M.}\binits{G.~J.~M.}} \AND
+  \bauthor{\bsnm{Alexander},~\bfnm{D.~C.}\binits{D.~C.}}
+(\byear{2007}).
+\btitle{Exploiting peak anisotropy for tracking through complex structure}.
+In \bbooktitle{Mathematical Methods in Biomedical Image Analysis}
+\bpages{1}.
+\bpublisher{IEEE Computer Society}, \baddress{Rio de Janeiro}.
+\end{bincollection}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Tournier, Calamante and
+  Gadian~DG}{2004}]{Tournier}
+\begin{barticle}[author]
+\bauthor{\bsnm{Tournier},~\bfnm{J.~D.}\binits{J.~D.}},
+  \bauthor{\bsnm{Calamante},~\bfnm{F.}\binits{F.}} \AND
+  \bauthor{\bsnm{Gadian~DG},~\bfnm{Connelly~A}\binits{C.~A.}}
+(\byear{2004}).
+\btitle{Direct estimation of the fiber orientation density function from
+  diffusion-weighted {MRI} data using spherical deconvolution}.
+\bjournal{NeuroImage}
+\bvolume{23}
+\bpages{1176--1185}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Tuch}{2004}]{Tuch}
+\begin{barticle}[author]
+\bauthor{\bsnm{Tuch},~\bfnm{D.~S.}\binits{D.~S.}}
+(\byear{2004}).
+\btitle{Q-ball Imaging}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{52}
+\bpages{1358--1372}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Tuch {\it et~al.}}{2002}]{tuc-etal:high}
+\begin{barticle}[author]
+\bauthor{\bsnm{Tuch},~\bfnm{D~S}\binits{D.~S.}},
+  \bauthor{\bsnm{Reese},~\bfnm{T~G}\binits{T.~G.}},
+  \bauthor{\bsnm{Wiegell},~\bfnm{M~R}\binits{M.~R.}},
+  \bauthor{\bsnm{Makris},~\bfnm{N}\binits{N.}},
+  \bauthor{\bsnm{Belliveau},~\bfnm{J~W}\binits{J.~W.}} \AND
+  \bauthor{\bsnm{Wedeen},~\bfnm{V~J}\binits{V.~J.}}
+(\byear{2002}).
+\btitle{High angular resolution diffusion imaging reveals intravoxel white
+  matter fiber heterogeneity}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{48}
+\bpages{577--582}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Walsh}{1970}]{Walsh1970}
+\begin{barticle}[author]
+\bauthor{\bsnm{Walsh},~\bfnm{J.~E.}\binits{J.~E.}}
+(\byear{1970}).
+\btitle{Sample sizes for appropriate independence of largest and smallest order
+  statistics}.
+\bjournal{J. of the American Statistical Association}
+\bvolume{65}
+\bpages{860--863}.
+\end{barticle}
+\endbibitem
+
+\bibitem[\protect\citeauthoryear{Wedeen {\it et~al.}}{2005}]{Wedeen05}
+\begin{barticle}[author]
+\bauthor{\bsnm{Wedeen},~\bfnm{V.~J.}\binits{V.~J.}},
+  \bauthor{\bsnm{Hagmann},~\bfnm{P.}\binits{P.}},
+  \bauthor{\bsnm{Tseng},~\bfnm{W.-Y.}\binits{W.-Y.}},
+  \bauthor{\bsnm{Reese},~\bfnm{T.~G.}\binits{T.~G.}} \AND
+  \bauthor{\bsnm{Weisskoff},~\bfnm{R.~M.}\binits{R.~M.}}
+(\byear{2005}).
+\btitle{Mapping Complex Tissue Architecture with Diffusion Spectrum Magnetic
+  Resonance Imaging}.
+\bjournal{Magnetic Resonance in Medicine}
+\bvolume{54}
+\bpages{1377--1386}.
+\end{barticle}
+\endbibitem
+
+\end{thebibliography}
