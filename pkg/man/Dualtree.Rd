@@ -33,9 +33,8 @@ idualtree2D(w, J, Fsf, sf)
 }
 \details{
   In one dimension \eqn{N} is divisible by \eqn{2^J} and
-  \eqn{N\ge2^{J-1}\cdot\mbox{length}(\mbox{\code{af}})}.
-
-  In two dimensions, these two conditions must hold for both \eqn{M} and 
+  \deqn{N\ge2^{J-1}\cdot\mbox{length}(\mbox{\code{af}}).}
+  In two dimensions, these two conditions must hold for both \eqn{M} and
   \eqn{N}.
 }
 \references{

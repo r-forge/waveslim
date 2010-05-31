@@ -2,8 +2,8 @@
 \alias{heavisine}
 \title{Sine with Jumps at 0.3 and 0.72}
 \description{
-  \deqn{heavisine(x) = 4\sin(4{\pi}x) - \mathrm{sign}(x-0.3) -
-    \mathrm{sign}(0.72-x)}{%
+  \deqn{\mbox{heavisine}(x) = 4\sin(4{\pi}x) - \mbox{sign}(x-0.3) -
+    \mbox{sign}(0.72-x)}{%
     heavisine(x) = 4*sin(4*pi*x) - sign(x-0.3) - sign(0.72-x)}
 }
 \usage{data(heavisine)
