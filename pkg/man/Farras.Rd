@@ -18,8 +18,7 @@ FSfarras()
   \item{af}{List ($i = 1,2$) - analysis filters for tree $i$}
   \item{sf}{List ($i = 1,2$) - synthesis filters for tree $i$}
 }
-\details{
-}
+%\details{}
 \references{
   A. F. Abdelnour and I. W. Selesnick. "Nearly symmetric orthogonal
   wavelet bases", Proc. IEEE Int. Conf. Acoust., Speech, Signal

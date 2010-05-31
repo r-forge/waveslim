@@ -16,8 +16,7 @@
   Length \code{n} time series from true autocovariance sequence
   \code{acvs}.
 }
-\details{
-}
+%\details{}
 \references{
   Hosking, J. R. M. (1984)
   Modeling persistence in hydrological time series using fractional

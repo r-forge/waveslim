@@ -1,6 +1,6 @@
 Package: waveslim
-Version: 1.6.3
-Date: 2009-12-02
+Version: 1.6.4
+Date: 2010-31-05
 Title: Basic wavelet routines for one-, two- and three-dimensional signal 
   processing
 Author: Brandon Whitcher <bjw34032@users.sourceforge.net>

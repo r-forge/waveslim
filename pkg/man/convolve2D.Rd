@@ -22,9 +22,7 @@ convolve2D(x, y, conj = TRUE, type = c("circular", "open"))
      sub-vector of \code{"open"}, namely, the result of running a
      weighted mean of \code{x} with weights \code{y}.}
 }
-\value{
-  
-}
+%\value{}
 \details{
   This is a corrupted version of \code{convolve} made by replacing
   \code{fft} with \code{mvfft} in a few places.  It would be nice to
