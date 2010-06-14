@@ -86,26 +86,30 @@ United Kingdom\\
 
 \begin{abstract}
 High angular resolution diffusion imaging data is the observed
-characteristic function for the local diffusion of water molecules in tissue. This data is used to infer structural information in brain imaging. 
-Non-parametric scalar measures are proposed to summarize such data, and to locally characterize 
-spatial features of the diffusion probability density function (PDF),
-relying on the geometry of the characteristic function.  Summary statistics
-are defined so that their distributions are, to first order, both
-independent of nuisance parameters and analytically tractable.  The
-dominant direction of the diffusion at a spatial location (voxel) is determined, and a
-new set of axes are introduced in Fourier space.  Variation quantified in
-these axes determines the local spatial properties of the diffusion density.
+characteristic function for the local diffusion of water molecules in
+tissue.  These data are used to infer the organization of white matter
+fiber bundles in structural brain imaging.  Non-parametric scalar
+measures are proposed to summarize such data, and to locally
+characterize spatial features of the diffusion probability density
+function (PDF), relying on the geometry of the characteristic
+function.  Summary statistics are defined so that their distributions
+are, to first order, both independent of nuisance parameters and
+analytically tractable.  The dominant direction of the diffusion at a
+spatial location (voxel) is determined, and a new set of axes are
+introduced in Fourier space.  Variation quantified in these axes
+determines the local spatial properties of the diffusion density.
 Non-parametric hypothesis tests for determining whether the diffusion
 is unimodal, isotropic or multi-modal are proposed.  More subtle
 characteristics of white-matter microstructure, such as the degree of
-anisotropy of the PDF and symmetry compared with a variety of
-asymmetric PDF alternatives, may be ascertained directly in the Fourier domain
-without parametric assumptions on the form of the diffusion~PDF.  We
-simulate a set of diffusion processes and characterize their local
-properties using the newly introduced summaries.  We show
-how complex white-matter structures across multiple voxels exhibit
-clear ellipsoidal and asymmetric structure in simulation, and assess
-the performance of the statistics in clinically-acquired MRI data.
+anisotropy of the diffusion~PDF and symmetry compared with a variety
+of asymmetric PDF alternatives, may be ascertained directly in the
+Fourier domain without parametric assumptions on the form of the
+diffusion~PDF.  We simulate a set of diffusion processes and
+characterize their local properties using the newly introduced
+summaries.  We show how complex white-matter microstructure that spans
+multiple voxels exhibits clear ellipsoidal and asymmetric structure in
+simulation, and assess the performance of the statistics in
+clinically-acquired MRI data.
 \end{abstract}
 
 %\begin{IEEEkeywords}
@@ -127,52 +131,90 @@ the performance of the statistics in clinically-acquired MRI data.
 \section{Introduction}
 \label{intro}
 
-Many applications in brain imaging are based on calculating local statistics that are later combined
-to infer global properties of spatial links or connections. In this paper we focus on the local analysis of high
-angular resolution diffusion imaging (HARDI) data, a special type of magnetic resonance imaging (MRI). HARDI observations correspond to the local (voxel-wise) measurement of the Fourier Transform of the local water molecule diffusion probability density function (PDF) \citep{Callaghan} in a number of different orientations over a spherical shell of fixed radius.
+Many applications in brain imaging are based on calculating local
+statistics that are later combined to infer global properties of
+spatial links or connections. In this paper we focus on the local
+analysis of high angular resolution diffusion imaging (HARDI) data, a
+special type of magnetic resonance imaging (MRI).  HARDI observations
+correspond to the local (voxel-wise) measurement of the Fourier
+transform of the local water molecule diffusion probability density
+function (PDF) \citep{Callaghan} in a number of different orientations
+over a spherical shell of fixed radius.
 
-A HARDI acquisition scheme  permits the characterization of directional spatial
-properties of the diffusion PDF. The local structure of brain tissue can be  inferred from such measurements; see for example \cite{basser1994,bas:relationships}. Once local statistics have been formed, it is of interest to combine information across voxels (spatial locations), to for example track nerves (e.g. connect local directions of estimated PDFs to recognize nerve connections) or to infer local fibre structure from the estimated diffusions
-({\em e.g.} \cite{mor-zij:fiber-tracking}),
-and/or to use other locally defined summaries in inference procedures ({\em e.g.} \cite{jen-etal:kurtosis}). 
+A HARDI acquisition scheme permits the characterization of directional
+spatial properties of the diffusion PDF.  The local structure of brain
+tissue can be inferred from such measurements
+\cite{basser1994,bas:relationships}.  Once local statistics have been
+formed, it is of interest to combine information across voxels
+(spatial locations), to track nerve fiber bundles (e.g. connect local
+directions of estimated diffusion PDFs to recognize nerve connections)
+or to infer local fiber structure from the estimated diffusions
+\citep{mor-zij:fiber-tracking}, and/or to use other locally-defined
+summaries in inference procedures \citep{jen-etal:kurtosis}.
 
-Different orientational sampling designs can be used at each location (or voxel) and if a simple parametric model is used for the PDF, then rather sparse sampling will be sufficient to recover the parameters of the model. Traditional analysis of HARDI measurements is based
-on modelling the PDF parametrically as a (zero-mean) Gaussian, and estimating a
-diffusion tensor (the covariance matrix of the Gaussian PDF), a procedure which corresponds to Diffusion Tensor Imaging (DTI). Such methods have drawbacks, namely of not describing more complex structures well, and their usage trades a small variance for potentially large biases. While the diffusion tensor model has both
+Different orientational sampling designs can be used at each location
+(or voxel) and if a simple parametric model is used for the
+diffusion~PDF, then rather sparse sampling will be sufficient to
+recover the parameters of the model.  Traditional analysis of HARDI
+measurements is based on modelling the diffusion~PDF parametrically as
+a (zero-mean) Gaussian, and estimating a diffusion tensor (the
+covariance matrix of the Gaussian PDF), a procedure which corresponds
+to diffusion tensor imaging (DTI) \citep{basser1994}.  Such methods
+have drawbacks, for example not describing more complex fiber
+structures very well, and their usage trades a small variance for
+potentially large biases.  While the diffusion tensor model has both
 theoretical justification and has been extremely popular, it prohibits
 one from describing more complicated (white-matter voxel) structure,
 such as crossing, kissing and forking fibers
-\citep{mor-zij:fiber-tracking}.  
+\citep{mor-zij:fiber-tracking}.
 
-
-It is believed that intravoxel
-orientational heterogeneity affects as many as one third of all imaged
-white-matter voxels \citep{Behrens2007}, and so addressing such structure is important.  
-With more time-intensive sampling schemes (such as HARDI \citep{tuc-etal:high} or diffusion spectrum imaging sampling) various more complicated estimators can be used, e.g. multi-tensor modelling \citep{Alexander2005}, and non-parametric alternatives such as
+It is believed that intravoxel orientational heterogeneity affects as
+many as one third of all imaged white-matter voxels
+\citep{Behrens2007}, and so addressing such structure is important.
+With more time-intensive sampling schemes (such as HARDI
+\citep{tuc-etal:high} or diffusion spectrum imaging) various more
+complicated estimators can be used, e.g. multi-tensor modelling
+\citep{Alexander2005}, and non-parametric alternatives such as
 persistent angular structure MRI \citep{Jansons}, Q-ball imaging
 \citep{Tuch}, the diffusion orientation transform
 \citep{Ozarslan2006}, and spherical deconvolution \citep{Tournier}.
 % with various proposed improvements \citep{Hess,Descoteaux,Kaden2007,Jian2007}
-While using a non-parametric approach removes bias, usage of non-parametric methods is challenging because the diffusion is measured in the Fourier domain ($q$-space\footnote{$q$-space is the Fourier domain representation of the local diffusion and is the space where measurements are made. The global image Fourier representation is usually inverted to a spatial representation, but the local Fourier transform is not inverted as part of the acquisition, leaving the spatial domain observations associated with a measurement of local diffusion in a Fourier domain orientation.}), and the characteristic function has been considerably undersampled for realistic scanning times. This challenges the stable inversion of information (the local characteristic function) to local spatial structure.
+While a non-parametric approach may remove bias, usage of such
+non-parametric methods is challenging because the diffusion is
+measured in the Fourier domain ($q$-space\footnote{$q$-space is the
+  Fourier domain representation of the local diffusion and is the
+  space where measurements are made.  The global image Fourier
+  representation is usually inverted to a spatial representation, but
+  the local Fourier transform is not inverted as part of the
+  acquisition, leaving the spatial domain observations associated with
+  a measurement of local diffusion in a Fourier domain orientation.}),
+and the characteristic function has been considerably undersampled for
+scanning times that may be used in the clinic.  This challenges the
+stable inversion of information (the local characteristic function) to
+local spatial structure.
 
-This paper develops a statistical framework for characterising
-HARDI data {\em directly} in $q$-space
-\citep{tuc-etal:high} {\em without} local inversion.
+This paper develops a statistical framework for characterising HARDI
+data directly in $q$-space \citep{tuc-etal:high} without local
+inversion.
 %  We focus on describing spatial structure
 %of the local diffusion probability density function (PDF) directly in
 %$q$-space and define estimators of
 %summaries of spatial structure. 
- This avoids calculating non-linear transformations of the data, whose usage usually leads to intractability of the distributions of calculated data summaries. The approximate distributions of the
-proposed estimators in this paper are derived and these are defined so that to first order they are free of any
-nuisance parameters.  The proposed statistics are a first step towards
-automated detection of subtle characteristics of white-matter
-microstructure that go beyond the typical measurements; i.e., scalene
-diffusions or asymmetry in decay in a fixed axes.  Both properties,
-scalene diffusion and asymmetry, have been found in a forking fiber
-structure, and may be important summaries to feed into fiber-tracking
-algorithms \citep{mor-zij:fiber-tracking}.  The derived methods also
-serve as a warning when interpreting multi-tensor models in
-clinically-feasible acquisition schemes, as similar characteristics can be obtained from more complex single peaked structures.
+This avoids calculating non-linear transformations of the data, whose
+usage usually leads to intractability of the distributions of
+calculated data summaries.  The approximate distributions of the
+proposed estimators in this paper are derived and these are defined so
+that to first order they are free of any nuisance parameters.  The
+proposed statistics are a first step towards automated detection of
+subtle characteristics of white-matter microstructure that go beyond
+the typical measurements; i.e., scalene diffusions or asymmetry in
+decay in a fixed axes.  Both properties, scalene diffusion and
+asymmetry, have been found in a forking fiber structure, and may be
+important summaries to feed into fiber-tracking algorithms
+\citep{mor-zij:fiber-tracking}.  The derived methods also serve as a
+warning when interpreting multi-tensor models in clinically-feasible
+acquisition schemes, as similar characteristics can be obtained from
+more complex single peaked structures.
 
 % The revival of connectional anatomy, through the application of in
 % vivo assessment of white-matter structure using Diffusion Tensor
@@ -200,8 +242,6 @@ clinically-feasible acquisition schemes, as similar characteristics can be obtai
 % techniques.  Specific links between white-matter features (such as
 % crossing and bending fibers) and $q$-space characteristics will be
 % provided.
-
-  
 
 %Multi-tensor
 %modelling either requires the number of tensors to be known
@@ -233,18 +273,18 @@ clinically-feasible acquisition schemes, as similar characteristics can be obtai
 %\citep{Jansons,Tuch,par-ale:pico,hos-wil-ans:inference,beh-etal:multiple}.
 
 Global features like bi- or multi-modality of the diffusion~PDF are
-described reasonably well by many methods over a
-range of signal to noise values, with the small caveat that the
-various implicit assumptions inherent to any of the given methods must
-be satisfied.  Parametric models introduce bias when they are not
+described reasonably well by many methods over a range of
+signal-to-noise values, with the small caveat that the various
+implicit assumptions inherent to any of the given methods must be
+satisfied.  Parametric models introduce bias when they are not
 appropriate, whereas using a nonparametric method increases the
 variance in the estimation.  Using a moderate number of directions in
-the HARDI sampling scheme restricts the possibility of determining smaller
-scale structure of the diffusion PDF.  Strong parametric assumptions increase the
-power of any proposed statistic to detect multiple diffusion
-directions, with the consequence that any deviation from the
-prescribed structure in the parametric model may be used to reject
-null hypotheses such as unimodality.  
+the HARDI sampling scheme restricts the possibility of determining
+smaller scale structure of the diffusion~PDF.  Strong parametric
+assumptions increase the power of any proposed statistic to detect
+multiple diffusion directions, with the consequence that any deviation
+from the prescribed structure in the parametric model may be used to
+reject null hypotheses such as unimodality.
 % This implies that incorrect conclusions may be reached when
 % interpreting the properties of the PDF from such parametric models.
 
@@ -261,54 +301,64 @@ null hypotheses such as unimodality.
 %performance of peak detection methods when the sampling grid is
 %misaligned with the true peaks, as noted by \citet{Jian2007}.
 
-In the method proposed here to determine the properties of the PDF, the directional PDFs (PDFs that are strongly elongated in a given direction) are separated
-from the isotropic PDFs (non-preferential directional structure), using a test based on a comparison of relative
-magnitudes in $q$-space. Subsequently multimodal distributions are sifted
-from the isotropic and unidirectional.  The unidirectional diffusion
-is associated with a great circle in $q$-space \citep{Tuch}, and we
-call this the {\em dominant great circle}.   The strongest direction defines an important spatial summary of the diffusion PDF, and specifies the major axis of the diffusion in $q$-space. The perpendicular to the major direction in space defines a set of points lying on a great circle in $q$-space, which exactly corresponds to the dominant great circle. 
+In the method proposed here to determine the properties of the
+diffusion~PDF, the directional PDFs (i.e., diffusion~PDFs that are
+strongly elongated in a given direction) are separated from the
+isotropic PDFs (non-preferential directional structure), using a test
+based on a comparison of relative magnitudes in $q$-space.
+Subsequently, multimodal distributions are sifted from the isotropic
+and unidirectional.  The unidirectional diffusion is associated with a
+great circle in $q$-space \citep{Tuch}, and we call this the {\em
+  dominant great circle}.  The strongest direction defines an
+important spatial summary of the diffusion~PDF, and specifies the
+major axis of the diffusion in $q$-space.  The perpendicular to the
+major direction in space defines a set of points lying on a great
+circle in $q$-space, which exactly corresponds to the dominant great
+circle.
 
+If a given voxel has been diagnosed as unidirectional (or if there is
+a dominant great circle in $q$-space) then we seek to characterize its
+main unidirectional structure in more detail.  A scalar measure
+resembling the popular fractional anisotropy\footnote{The fractional
+  anisotropy (FA) is a measure of uniformity of the eigenvalues of a
+  Gaussian covariance matrix \citep{bas:FA}.}  statistic is defined as
+the {\em anisotropy statistic}, by comparing the magnitude of the
+$q$-space diffusion on the dominant great circle with its two
+perpendicular point(s).  This measure determines the degree of
+anisotropy of the diffusion~PDF.  Further investigation of
+unidirectional voxels causes us to focus on quantifying the uniformity
+of decay in the minor axes of the diffusion~PDF, or the perpendicular
+to the dominant great circle, to describe further detailed structure
+of the characteristic function.
 
-If a given voxel has been
-diagnosed as unidirectional (or if there is a dominant great circle in $q$-space) then we seek to characterize its main
-unidirectional structure in more detail.
-A scalar measure resembling the popular
-fractional anisotropy \footnote{The fractional anisotropy (FA) is a measure of uniformity of the eigenvalues of a Gaussian covariance matrix. \citep{bas:FA}} is defined as the {\em anisotropy statistic}, by comparing the magnitude of the $q$-space diffusion on
-the dominant great circle with its two perpendicular point(s).  This measure determines the degree
-of anisotropy of the diffusion~PDF. 
-Further investigation of unidirectional voxels causes us to focus on
-quantifying the uniformity of decay in the minor axes of the PDF,
-or the perpendicular to the dominant great circle, to describe further detailed structure of the characteristic function.
-
-
-Ellipsoidal
-diffusions are an important class of diffusions and the scalene structure of the
-diffusion~PDF is particularly important when combining voxel-wise information, see e.g. \citep{Seunarine}.  The
-aforementioned work showed that the scalene structure of the peak is
-related to the peak anisotropy in space and important for treating
-bending and fanning fibers.  \citet{Seunarine} used the peak Hessian to
-improve PICo \citep{par-ale:pico}, a fiber tracking method, but such information can feed into
-any tracking algorithm of choice.  For diffusions with ellipsoidal
-decay, their minor axes are well defined by this (scalene) decay structure,
-while for non-ellipsoidal diffusions the minor axes correspond to a
-set of axes in the plane of the dominant great circle, parameterising
-locations on the dominant great circle.  We examine the scalene
-structure of the PDF, which is quantified by the difference in decay
-in the two spatial minor axes, defined as such also for non-ellipsoid
-diffusions.  
+Ellipsoidal diffusions are an important class of diffusion processes
+and the scalene structure of the diffusion~PDF is particularly
+important when combining voxel-wise information \citep{Seunarine}.
+The aforementioned work showed that the scalene structure of the peak
+is related to the peak anisotropy in space and important for treating
+bending and fanning fibers.  \citet{Seunarine} used the peak Hessian
+to improve PICo \citep{par-ale:pico}, a fiber tracking method, but
+such information can feed into any tracking algorithm of choice.  For
+diffusions with ellipsoidal decay, their minor axes are well defined
+by this (scalene) decay structure, while for non-ellipsoidal
+diffusions the minor axes correspond to a set of axes in the plane of
+the dominant great circle, parameterising locations on the dominant
+great circle.  We examine the scalene structure of the PDF, which is
+quantified by the difference in decay in the two spatial minor axes,
+defined as such also for non-ellipsoid diffusions.
 % This corresponds to examining the variability of the diffusion on
 % the great circle perpendicular to the vector associated with the
 % major direction of the diffusion.  For a Gaussian diffusion this is
 % given by the two minor eigenvalues of the eigen-decomposition of the
 % diffusion tensor.
 A statistical test for uniformity on the great circle is developed
-that can be related to the spatial decay of the diffusion PDF in the
-minor axes.  Another feature of interest in the PDF is asymmetry in the decay in
-a fixed direction perpendicular to the dominant great circle.  This
-heuristic may be visualized in space as a diffusion~PDF that appears
-ellipsoidal but the peak is in one of the foci rather than the center
-of the ellipse.  We introduce a test statistic for asymmetry based on
-this understanding.
+that can be related to the spatial decay of the diffusion~PDF in the
+minor axes.  Another feature of interest in the PDF is asymmetry in
+the decay in a fixed direction perpendicular to the dominant great
+circle.  This heuristic may be visualized in space as a diffusion~PDF
+that appears ellipsoidal but the peak is in one of the foci rather
+than the center of the ellipse.  We introduce a test statistic for
+asymmetry based on this understanding.
 
 % To motivate our interest in asymmetry and ellipsoidality we simulate
 % forking and crossing structures, and show how both asymmetry and
