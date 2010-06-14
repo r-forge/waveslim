@@ -3,7 +3,7 @@
 \RequirePackage[OT1]{fontenc}
 \RequirePackage{amsthm,amsmath,natbib}
 \RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref}
-%\RequirePackage{hypernat}
+\RequirePackage{hypernat}
 \usepackage{amssymb,bm,graphicx}
 
 % settings
@@ -365,17 +365,17 @@ asymmetry based on this understanding.
 % ellipsoidality follows as precursors to forking structure, and such
 % information could be used to improve the tracking of fibers.
 
-The methodology presented here improves understanding of the
+The methodology presented here improves our understanding of the
 diffusion~PDF by not relying on parametric assumptions when analysing
-the measurements, yet still relating $q$-space structure directly to
-spatial properties.  Non-parametric statistical summaries are defined
-directly in $q$-space to increase power of the proposed hypothesis
-tests and theoretical critical values for the statistics are provided.
-Understanding the inherent limitations of HARDI measurements can be
-obtained directly from our discussion of simulated diffusions, thus
-increasing our understanding of the parametric assumptions that are
-necessary to derive more complicated structures from the
-diffusion~PDF.
+the MRI measurements, yet still relating $q$-space structure directly
+to spatial properties.  Non-parametric statistical summaries are
+defined directly in $q$-space to increase power of the proposed
+hypothesis tests and theoretical critical values for the statistics
+are provided.  Understanding the inherent limitations of HARDI
+measurements can be obtained directly from our discussion of simulated
+diffusions, thus increasing our understanding of the parametric
+assumptions that are necessary to derive more complicated structures
+from the diffusion~PDF.
 
 \section{Statistical Models for HARDI Data}
 
@@ -387,16 +387,19 @@ $\tbq_i=(\tilde{q}_{i1},\tilde{q}_{i2},\tilde{q}_{i3})$ on the unit
 sphere
 $\|\tbq\|=(\tilde{q}_{1}^2+\tilde{q}_{2}^2+\tilde{q}_{3}^2)^{1/2}=1$
 we obtain an observed measurement $\wt{A}(\tbq_i)\ge0$, corresponding
-to the magnitude of a complex-valued observation (the noisy characteristic function of local diffusion\footnote{Note that this is different from the empirical characteristic function.}).  Furthermore we take
-$n_0$ observations at $\q=\bld{0}$, denoted by $\wt{A}_k(\bld{0})$ for
-$k=1,\dots,n_0$.  We distinguish here between the measured apparent
-diffusion at $\tbq_i$, namely $\wt{A}(\tbq_i)$, and the theoretical
-diffusion value, $\cA(\tbq_i)$. Note that the expected value of
-$\wt{A}(\tbq_i)$ is {\em not} equivalent to $\cA(\tbq_i)$, for two
-reasons. Firstly because the observations are magnitudes, with the noise
-contributing in the expectation, and secondly we need to renormalize
-the observed diffusion to have unit volume, as noted by \citet{Alexander2005}. As the PDF
-is a density it has to satisfy the normalization of
+to the magnitude of a complex-valued observation (the noisy
+characteristic function of local diffusion\footnote{Note that this is
+  different from the empirical characteristic function.}).
+Furthermore we take $n_0$ observations at $\q=\bld{0}$, denoted by
+$\wt{A}_k(\bld{0})$ for $k=1,\dots,n_0$.  We distinguish here between
+the measured apparent diffusion at $\tbq_i$, namely $\wt{A}(\tbq_i)$,
+and the theoretical diffusion value, $\cA(\tbq_i)$. Note that the
+expected value of $\wt{A}(\tbq_i)$ is {\em not} equivalent to
+$\cA(\tbq_i)$, for two reasons. Firstly because the observations are
+magnitudes, with the noise contributing in the expectation, and
+secondly we need to renormalize the observed diffusion to have unit
+volume, as noted by \citet{Alexander2005}. As the PDF is a density it
+has to satisfy the normalization of
 \begin{equation}
   \int \int \int a(\x) \, d^3\x = 1 ~ \Rightarrow ~ \cA(\bld{0}) = 1,
 \end{equation}
@@ -406,25 +409,25 @@ of the normalizing constant by
 $\ol{A}(\bld{0})=\sum_{k=1}^{n_0}\wt{A}_k(\bld{0})/n_0$.  We
 renormalize the observed diffusion such that
 $A(\tbq_i)=\wt{A}(\tbq_i)/\ol{A}(0)$.  $A(\tbq_i)$ has (approximately)
-a Rician distribution with parameters $\cA(\tbq_i)$ and $\sigma^2$ \citep{Gudbjartsson}.
-As the SNR will be large at $\q=\bld{0}$, the noise floor of the
-Rician distribution will have limited impact in the estimation of the
-normalization.
+a Rician distribution with parameters $\cA(\tbq_i)$ and $\sigma^2$
+\citep{gud-pat:Rician}.  As the SNR will be large at $\q=\bld{0}$, the
+noise floor of the Rician distribution will have limited impact in the
+estimation of the normalization.
 
 The normalized diffusion measurements $\cA(\tbq_i)$ should exhibit
 symmetry as the PDF is real-valued, symmetric and indeed positive;
-i.e., $\cA(-\tbq_i)=\cA(\tbq_i)$ (see \citep{Wedeen05}).  To fully exploit the Hermitian
-symmetry we shall reflect the observations to the augmented set
-$\cQ=\{\q:\q\in\cQ_0\}\cup\{\q:-\q\in\cQ_0\}$, and set
-$A(-\tbq_i)=A(\tbq_i)$ as was also done by \citet{Jansons}.  
+i.e., $\cA(-\tbq_i)=\cA(\tbq_i)$ \citep{Wedeen05}.  To fully exploit
+the Hermitian symmetry we shall reflect the observations to the
+augmented set $\cQ=\{\q:\q\in\cQ_0\}\cup\{\q:-\q\in\cQ_0\}$, and set
+$A(-\tbq_i)=A(\tbq_i)$ as was also done by \citet{Jansons}.
 
 We assume that a non-parametric estimator of the diffusion in
-$q$-space is constructed. We chose to use a variable bandwidth estimator, see
-\citet{OlhedeWhitcher,OlhedeWhitcherISBI}, but the outlined methodology
-is applicable to other linear estimators, and can be extended to for
-example radial basis functions and/or spherical harmonics, if with
-some straightforward alteration of the statistical properties (second order structure) of the
-estimator.
+$q$-space is constructed. We chose to use a variable bandwidth
+estimator \citep{OlhedeWhitcher,OlhedeWhitcherISBI}, but the outlined
+methodology is applicable to other linear estimators, and can be
+extended to for example radial basis functions and/or spherical
+harmonics, if with some straightforward alteration of the statistical
+properties (second order structure) of the estimator.
 
 \subsection{Great Circles in $q$-Space}
 
@@ -469,24 +472,25 @@ form
   &=& \frac{2}{x}\int_0^{\infty}B(q)\sin(2\pi xq) \,q\,dq,
   \nonumber
 \end{eqnarray}
-which follows from \citep{grad}[p.~1112].  The meaning of ``ellipsoid
+which follows from \citet[p.~1112]{grad}.  The meaning of ``ellipsoid
 density'' becomes clear from this expression, since whenever
 $\|\bs{\Lambda}^{-1/2}\bs{\Upsilon}\x\|=R$, where $R\ge 0$ is a
 constant, the function $a_E(\x)$ takes the same value in space.  As
 long as all the eigenvalues are positive, $ a_E(\cdot)$ will therefore
-map out ellipsoid contours of equal function value in space.  The Gaussian DTI model fits into this class of
-densities with $b(x)=e^{-x^2/2}/(2\pi)^{3/2}$ as do, for example, the
-Mat\'ern family with the spatial variable exchanged with the spatial
-frequency variable \citep{Matern}.  The model proposed by
-\citet{Kaden2007} is also related to such densities. Typical shapes are
-found in Figure~\ref{fig:inrha} where we show a prolate ellipsoid
-distribution, and its Fourier transform ((a) and (e)), a scalene
-ellipsoid PDF ((b) and (f)), a mixture of ellipsoids ((c) and (g)),
-and a non-ellipsoid ((d) and (h)). The values of $\bm{\Upsilon}$
-specify the orientation of the PDF, while $\bm{\Lambda}$ gives its
-qualitative appearance, when coupled with $B(\cdot)$. Unfortunately,
-looking directly at Figure \ref{fig:inrha} we do not get the clearest
-feeling for the local structure near the peak, and so additional ways of
+map out ellipsoid contours of equal function value in space.  The
+Gaussian DTI model fits into this class of densities with
+$b(x)=e^{-x^2/2}/(2\pi)^{3/2}$ as do, for example, the Mat\'ern family
+with the spatial variable exchanged with the spatial frequency
+variable \citep{Matern}.  The model proposed by \citet{Kaden2007} is
+also related to such densities.  Typical shapes are found in
+Figure~\ref{fig:inrha} where we show a prolate ellipsoid distribution,
+and its Fourier transform ((a) and (e)), a scalene ellipsoid PDF ((b)
+and (f)), a mixture of ellipsoids ((c) and (g)), and a non-ellipsoid
+((d) and (h)). The values of $\bm{\Upsilon}$ specify the orientation
+of the PDF, while $\bm{\Lambda}$ gives its qualitative appearance,
+when coupled with $B(\cdot)$. Unfortunately, looking directly at
+Figure \ref{fig:inrha} we do not get the clearest feeling for the
+local structure near the peak, and so additional ways of
 characterizing the PDF will be formulated.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -544,29 +548,30 @@ An important tool in understanding HARDI data is via the Orientational
 Distribution Function (ODF).  The ODF quantifies the directional
 structure of the diffusion PDF {\em in space}.  A popular object of
 study, it corresponds to several {\em different} functions.
-\citet{Tuch} and \citet{Hess,Descoteaux} define the ODF to be
+Several authors  define the ODF to be
 \begin{equation}
   \text{ODF}_T(\theta,\phi) = \frac{1}{Z} \int_0^{\infty} a(r\uu)\,dr,
 \end{equation}
-where $\x=r\uu$, $\|\uu\|=1$ and $Z$ is a normalizing constant.  A
-non-linear transformation is necessary for the ODF to have a more
-peaked and clear directional structure.  Because this is not a true
-marginalization of a PDF (the increment needs a weighting by $r^2$), and weighs very low scales heavily, the
+where $\x=r\uu$, $\|\uu\|=1$ and $Z$ is a normalizing constant
+\citep{Tuch,Hess,Descoteaux}.  A non-linear transformation is necessary
+for the ODF to have a more peaked and clear directional structure.
+Because this is not a true marginalization of a PDF (the increment
+needs a weighting by $r^2$), and weighs very low scales heavily, the
 diffuse directional structure of the large scale structure smooths the
 marginal PDF of orientations, giving it a ``blunted'' appearance.
 \citet{Wedeen05} define the ODF as the truly marginalized PDF over all
-spatial radii 
+spatial radii
 \[\text{ODF}_W(\theta,\phi)=\int_0^{\infty}r^2a(r\uu)\,dr.\]  An
-alternative version may be found in \citep{Jansons}, where the
+alternative version may be found in \citet{Jansons}, where the
 orientational structure associated with a single radius is fitted to
 the observed data (i.e. the Persistent Angular Structure (PAS-MRI)
 algorithm).  It is useful to note that the observed data is not
 associated purely with a single radius, and for this to be a
 mathematically correct procedure the observed HARDI measurements
 should be convolved with a suitable kernel prior to estimation.
-Despite this fact PAS-MRI usually gives good results in practice.  All three
-of these orientational summaries are measuring {\em different} properties of
-the directional structure of the data, and only
+Despite this fact PAS-MRI usually gives good results in practice.  All
+three of these orientational summaries are measuring {\em different}
+properties of the directional structure of the data, and only
 $\text{ODF}_W(\cdot,\cdot)$ is a true marginal PDF.
 % Only the Wedeen ODF is a true marginal PDF, and we doubt a true
 % interest in structure across all radii -- surely information below a
@@ -622,15 +627,14 @@ two others (say $\lambda_1>\lambda_2\ge\lambda_3$) then the ellipsoid
 density (or equally in the case of the deformed density if
 $\inf_{\x}\lambda_1(\x)>\sup_{\x}\lambda_2(\x)$) will observe a
 maximum at the values (compare with \eqref{ellipsoid})
-{\tiny\begin{eqnarray}\label{qbeta}
+\begin{equation}\label{qbeta}
   \q(\beta) = \left\{
-  \begin{array}{lcr}
-    \beta \bu_2+\sqrt{1-\beta^2}\,\bu_3 & \text{if} & \beta\in[-1,1]\\
+  \begin{array}{ll}
+    \beta \bu_2+\sqrt{1-\beta^2}\,\bu_3 & \text{if}~\beta\in[-1,1];\\
     \text{sgn} \left(\beta\right) (|\beta|-1)\bu_2 -
-    \sqrt{1-(|\beta|-1)^2}\,  \bu_3 & \text{if} &
-    \beta\in[-2,2]\backslash[-1,1]
-  \end{array} \right. ,
-\end{eqnarray}}
+    \sqrt{1-(|\beta|-1)^2}\,  \bu_3 & \text{if}~\beta\in[-2,2]\backslash[-1,1],
+  \end{array} \right.
+\end{equation}
 noting the match to Figure \ref{fig:inrha}(e), (f) and (h).  This
 maximum great circle in $q$-space corresponds to the perpendicular
 vector $\pm\bu_1$ in space, where the diffusion PDF exhibits a
@@ -677,7 +681,7 @@ $\lambda_1>\lambda_2\ge \lambda_3$ then $\x_\text{max}=\bu_1$.  If
 there are two fibers, then with relative weights of $a_1$ and $a_2$ of
 fiber populations with $\bs{\Lambda}^{(1)}$ and $\bs{\Lambda}^{(2)}$
 the individual eigenvalues
-{\tiny \begin{equation}
+{\small \begin{equation}
   \x_\text{max} = \arg \max_{\bu}\left\{\left[ a_1
     \oint_{\q\in\cG(\bu)}
     {\cA}_E\left(\q;\bs{\Lambda}^{(1)},\bs{\Upsilon}^{(1)}\right) + a_2
@@ -833,9 +837,9 @@ do also the normalized entropy and the nematic order parameter \cite{Tuch}. Whil
 the GFA quantifies the lack of uniformity in the ODF, if there are
 more fibers than one, determining its statistical properties is
 non-trivial, unlike the case for $\tau$ and $\tilde{\tau}$.  Another
-such measure, generalized anisotropy \citep{Ozarslan2005} is defined
+such measure, generalized anisotropy is defined
 in terms of the generalized trace of the tensor representation of the
-mean diffusivity.  
+mean diffusivity \citep{Ozarslan2005}.  
 % Neither can we determine its statistical properties, nor use it to
 % distinguish more than uniformity versus any alternative.
 
@@ -1006,7 +1010,7 @@ measurements.  The dominant direction is estimated by
 \end{equation}
 where $\text{FRT}\{\cdot\}$ denotes the Funk-Radon Transform (FRT) as
 utilized in \citet{Tuch}.  Note that $\wh\cA(\q)$ refers to the
-multiresolution-based estimator in \citet{OlhedeWhitcher} it may be
+multiresolution-based estimator in \citet{OlhedeWhitcher}.  It may be
 replaced by another appropriate estimator.  We assume the availability
 of $(\wh{\sigma}^{\ast})^2$ an estimator of the variance of the error
 in $A(\q_k)$, namely $\sigma^2$.  The variance of $\wh\cA(\q_k)$ is
@@ -1015,7 +1019,7 @@ interpolated value of the PDF is
 $\breve{\sigma}^2\le\tilde{\sigma}^2\le \sigma^2$.  The integral may
 be approximated numerically by interpolating the observed HARDI
 measurements at evenly-spaced points along several great circles, each
-perpendicular to some $\x_i$.  
+perpendicular to some $\x_i$.
 
 The effects of using different numerical methods for this step is a
 trade-off between increasing numerical accuracy and decreasing
@@ -1107,7 +1111,7 @@ linear interpolation method used for the implementation.  Taking a
 value of $\rho=3$ is suitable for our choice of numerical
 interpolation and we define
 \begin{equation}\label{e:Um}
-  U = T \frac{\overline{\cA}_N}{\hat\sigma_{\cA}}.
+  U = T \, \frac{\overline{\cA}_N}{\hat\sigma_{\cA}}.
 \end{equation}
 We can compute the critical value $u_{\alpha}$ using the fact that
 $F_U(u_{\alpha})=1-\alpha$, where $F_U(\cdot)$ is given by
